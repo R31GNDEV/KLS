@@ -45,21 +45,6 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 %end
 */
 
-%hook CSTeachableMomentsContainerViewController
-
-NSString *catString = [_preferences objectForKey:@"GofuckYourself"];
-    {
-      Get your ass fucked nerd
-    }
-
-%end
-
--(void)_updateTextLabel:(NSString *)arg1 {
-    self.text = [_preferences objectForKey:@"textSet"];
-}
-
-%end
-
 %hook SBFLockScreenDateView
 /* Seems like the date view (should) always be index 0, with subtitle being below */
 -(NSArray *)subviews {
