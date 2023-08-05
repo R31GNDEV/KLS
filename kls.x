@@ -72,6 +72,32 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 }
 %end
 
+%hook SBFLockScreenDateSubtitleDateView
+-(NSArray *)subviews {
+ NSArray *subviews = %orig;
+ SBUILegibilityLabel *daLabel = subviews[0];
+ /* The good shit */
+ /* So I toyed around with SBUILegibilityLabel */
+ /* And found that the reason why it keeps overriding textColor is because it is paying attention to it's _UILegibilitySettings ivar */
+ /* So, instead of changing textColor, we change UILegibilitySettings */
+
+ /* Get the settings */
+ daLabel.legibilitySettings.primaryColor = [UIColor systemPinkColor];
+
+ /* Now, update the label for our settings */
+ [daLabel _updateLabelForLegibilitySettings];
+ [daLabel _updateLegibilityView];
+
+ /* Purple Glow Demo */
+
+ daLabel.layer.shadowOffset = CGSizeMake(0,0);
+ daLabel.layer.shadowColor = [UIColor purpleColor].CGColor;
+ daLabel.layer.shadowOpacity = 1.0;
+
+ return subviews;
+}
+%end
+
 /*
 Init prefs
 */
