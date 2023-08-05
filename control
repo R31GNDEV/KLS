@@ -1,0 +1,9 @@
+Package: gay.kota.kls
+Name: KLS
+Version: 0.1
+Architecture: iphoneos-arm
+Description: Customize your Lock Screen
+Maintainer: Kota
+Author: Kota
+Section: Tweaks
+Depends: mobilesubstrate (>= 0.9.5000), preferenceloader (>= 2.2.3),  ws.hbang.alderis (>= 1.1)

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>headerCellClass</key>
+			<string>HBPackageNameHeaderCell</string>
+			<key>packageIdentifier</key>
+			<string>gay.kota.kls</string>
+			<key>titleColor</key>
+			<string>#FF99CC</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>key</key>
+			<string>enabled</string>
+			<key>label</key>
+			<string>Enabled</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Set Footer Label</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string>Kota♥</string>
+			<key>defaults</key>
+			<string>gay.kota.basiccarrier</string>
+			<key>key</key>
+			<string>textSet</string>
+			<key>placeholder</key>
+			<string>Set Footer Text</string>
+			<key>height</key>
+			<real>44</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Clock Colors</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBColorPickerTableCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>default</key>
+			<string>#33b5e5</string>
+			<key>key</key>
+			<string>shadowColor</string>
+			<key>label</key>
+			<string>Lock Shadow Color</string>
+			<key>showAlphaSlider</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBColorPickerTableCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>default</key>
+			<string>#33b5e5</string>
+			<key>key</key>
+			<string>notInTheMood</string>
+			<key>label</key>
+			<string>Lock</string>
+			<key>showAlphaSlider</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Border Corner Radius Settings</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+            <string>PSSliderCell</string>
+            <key>cellClass</key>
+			<string>KLSLabeledSliderCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>key</key>
+			<string>cornerRadius2</string>
+			<key>default</key>
+			<string>5</string>
+			<key>min</key>
+			<string>1</string>
+			<key>max</key>
+			<string>20</string>
+			<key>isSegmented</key>
+			<true/>
+			<key>label</key>								<!-- The label will be used for the label above the slider -->
+			<string>Corner Radius</string>
+			<key>cornerRadius2</key>		<!-- Optional key used for localization -->
+			<string>Root</string>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Links</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Kota's GitHub</string>
+			<key>icon</key>
+			<string>github@2x.png</string>
+			<key>action</key>
+			<string>openGithubKota</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+        	<string>The Best Lock Screen Customization Tweak!</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerAlignment</key>
+			<string>1</string>
+			<key>footerText</key>
+			<string>2023 © R31GNDEV</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>KLS :3</string>
+</dict>
+</plist>
