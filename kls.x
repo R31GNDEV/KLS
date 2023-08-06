@@ -47,8 +47,29 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 
 %hook SBFLockScreenDateView
 /* Seems like the date view (should) always be index 0, with subtitle being below */
+-(CALayer *)layer {
+  CALayer *origLayer = %orig;
+  NSString *glowColorString = [_preferences objectForKey:@"shadowColor"];
+  NSString *backColorString = [_preferences objectForKey:@"backColor"];
+  CGFloat setCornerRadius = [_preferences floatForKey:@"cornerRadius"];
+  if (!(setCornerRadius >= 0)){
+    setCornerRadius = 1;
+  }
+  origLayer.cornerRadius = setCornerRadius;
+  if (glowColorString) {
+    origLayer.shadowColor = necksusSucksBalls(glowColorString).CGColor;
+  }
+  if (backColorString) {
+    origLayer.backgroundColor = necksusSucksBalls(backColorString).CGColor;
+  }
+  origLayer.shadowOpacity = 1;
+  origLayer.shadowOffset = CGSizeMake(0.0f,4.0f);
+  return origLayer;
+}
+
 -(NSArray *)subviews {
  NSArray *subviews = %orig;
+ NSString *textColorNew = [_preferences objectForKey:@"textColorNew"];
  SBUILegibilityLabel *daLabel = subviews[0];
  /* The good shit */
  /* So I toyed around with SBUILegibilityLabel */
@@ -56,7 +77,11 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
  /* So, instead of changing textColor, we change UILegibilitySettings */
 
  /* Get the settings */
- daLabel.legibilitySettings.primaryColor = [UIColor systemPinkColor];
+ if (textColorNew) {
+   daLabel.legibilitySettings.primaryColor = necksusSucksBalls(textColorNew);
+ }
+
+ /* Declare our NSStrings for Prefs */
 
  /* Now, update the label for our settings */
  [daLabel _updateLabelForLegibilitySettings];
@@ -75,6 +100,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 %hook SBFLockScreenDateSubtitleDateView
 -(NSArray *)subviews {
  NSArray *subviews = %orig;
+ NSString *textColorTwo = [_preferences objectForKey:@"textColorTwo"];
  SBUILegibilityLabel *daLabel = subviews[0];
  /* The good shit */
  /* So I toyed around with SBUILegibilityLabel */
@@ -82,7 +108,9 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
  /* So, instead of changing textColor, we change UILegibilitySettings */
 
  /* Get the settings */
- daLabel.legibilitySettings.primaryColor = [UIColor systemPinkColor];
+ if (textColorTwo) {
+ daLabel.legibilitySettings.primaryColor = necksusSucksBalls(textColorTwo);
+ }
 
  /* Now, update the label for our settings */
  [daLabel _updateLabelForLegibilitySettings];
