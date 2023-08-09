@@ -273,7 +273,7 @@ Header(s) *meow*
 - (void)layoutSubviews;
 - (id)initWithFrame:(struct CGRect)arg1;
 -(NSString *)text;
--(SBUILegibilityLabel *)label;
+-(SBUILegibilityLabel *)callToActionLabel;
 -(void)setLabel:(SBUILegibilityLabel *)textLabel;
 -(void)setText:(NSString *)arg1 ;
 
