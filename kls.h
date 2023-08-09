@@ -226,208 +226,60 @@ Header(s) *meow*
 -(BOOL)backgroundBlurred;
 @end
 
-@protocol SBDashBoardHomeAffordanceAnimationViewProviding, SBUIBiometricResource;
-@class CSHomeAffordanceViewController, NSTimer, NSMutableDictionary, UITapGestureRecognizer, CSTeachableMomentsContainerView, NSString;
+@class NSString, SBUILegibilityLabel, UIImageView, UIStatusBar, UIView, _UILegibilitySettings;
 
-@interface CSTeachableMomentsContainerViewController : UIView {
-
-	BOOL _authenticated;
-	BOOL _updateTextLabelOnNextAnimation;
-	BOOL _controlCenterCoachingIsHidden;
-	CSHomeAffordanceViewController* _homeAffordanceViewController;
-	unsigned long long _animationState;
-	id<SBDashBoardHomeAffordanceAnimationViewProviding> _viewProvider;
-	id<SBUIBiometricResource> _biometricResource;
-	NSTimer* _fireOffAnimationTimer;
-	NSMutableDictionary* _cachedLegibilityLabels;
-	UITapGestureRecognizer* _homeAffordanceClickGestureRecognizer;
+@interface CSTeachableMomentsContainerView : UIView
+{
+    _UILegibilitySettings *_legibilitySettings;
+    UIView *_controlCenterGrabberView;
+    UIView *_controlCenterGrabberPositionPlaceholderView;
+    UIImageView *_controlCenterGlyphView;
+    SBUILegibilityLabel *_callToActionLabel;
+    UIView *_callToActionLabelPositionPlaceholderView;
+    UIStatusBar *_statusBarToFollow;
+    UIView *_controlCenterGrabberEffectContainerView;
+    UIView *_controlCenterTutorsContainerView;
+    UIView *_controlCenterGrabberContainerView;
+    UIView *_controlCenterGlyphContainerView;
+    UIView *_callToActionLabelContainerView;
+    UIView *_homeAffordanceContainerView;
+    UIView *_homeAffordanceView;
 }
-@property (nonatomic,retain) NSTimer * fireOffAnimationTimer;                                                      //@synthesize fireOffAnimationTimer=_fireOffAnimationTimer - In the implementation block
-@property (assign,nonatomic) BOOL authenticated;                                                                   //@synthesize authenticated=_authenticated - In the implementation block
-@property (assign,nonatomic) BOOL updateTextLabelOnNextAnimation;
-@property (nonatomic,copy) NSString * originalText;  
-@property (nonatomic,copy) NSString * text;                                               //@synthesize originalText=_originalText - In the implementation block
-@property (nonatomic,readonly) NSTimer * alternateTextTimer;                                         //@synthesize alternateTextTimer=_alternateTextTimer - In the implementation block
-@property (assign,nonatomic) long long fontStyle;                                                    //@synthesize fontStyle=_fontStyle - In the implementation block
-@property (assign,nonatomic) UIEdgeInsets alignmentRectInsets;                                       //@synthesize alignmentRectInsets=_alignmentRectInsets - In the implementation block
-@property (nonatomic,copy) NSString * alternateText;                                                   //@synthesize updateTextLabelOnNextAnimation=_updateTextLabelOnNextAnimation - In the implementation block
-@property (nonatomic,retain) NSMutableDictionary * cachedLegibilityLabels;                                         //@synthesize cachedLegibilityLabels=_cachedLegibilityLabels - In the implementation block
-@property (assign,nonatomic) BOOL controlCenterCoachingIsHidden;                                                   //@synthesize controlCenterCoachingIsHidden=_controlCenterCoachingIsHidden - In the implementation block
-@property (nonatomic,retain) UITapGestureRecognizer * homeAffordanceClickGestureRecognizer;                        //@synthesize homeAffordanceClickGestureRecognizer=_homeAffordanceClickGestureRecognizer - In the implementation block
-@property (nonatomic,readonly) CSTeachableMomentsContainerView * teachableMomentsContainerView; 
-@property (nonatomic,readonly) CSHomeAffordanceViewController * homeAffordanceViewController;                      //@synthesize homeAffordanceViewController=_homeAffordanceViewController - In the implementation block
-@property (assign,nonatomic) unsigned long long animationState;                                                    //@synthesize animationState=_animationState - In the implementation block
-@property (readonly) unsigned long long hash; 
-@property (readonly) Class superclass; 
-@property (copy,readonly) NSString * description; 
-@property (copy,readonly) NSString * debugDescription; 
--(unsigned long long)animationState;
--(void)setAlternateText:(NSString *)arg1 ;
--(void)setAuthenticated:(BOOL)arg1 ;
--(void)setViewProvider:(id<SBDashBoardHomeAffordanceAnimationViewProviding>)arg1 ;
--(id)init;
--(BOOL)gestureRecognizer:(id)arg1 shouldReceiveTouch:(id)arg2 ;
--(void)_updateLegibilitySettings;
--(void)loadView;
--(void)viewWillAppear:(BOOL)arg1 ;
--(unsigned long long)currentState;
--(void)animationDidStop:(id)arg1 finished:(BOOL)arg2 ;
--(void)aggregateAppearance:(id)arg1 ;
--(void)_setupTimer;
--(void)setAnimationState:(unsigned long long)arg1 ;
--(void)viewWillDisappear:(BOOL)arg1 ;
--(BOOL)authenticated;
--(CSTeachableMomentsContainerView *)teachableMomentsContainerView;
--(void)setBiometricResource:(id<SBUIBiometricResource>)arg1 ;
--(void)_contentSizeCategoryChanged;
--(CSHomeAffordanceViewController *)homeAffordanceViewController;
--(void)dealloc;
--(id<SBUIBiometricResource>)biometricResource;
--(BOOL)handleEvent:(id)arg1 ;
--(void)_updateTextLabel;
--(void)_updateText:(id)arg1 ;
--(void)_removeResetAnimationForKeyPath:(id)arg1 onLayer:(id)arg2 ;
--(void)_homeAffordanceClickRecognized:(id)arg1 ;
--(void)_setControlCenterTutorsHidden:(BOOL)arg1 ;
--(void)_moveUpTimerForFiringAfterDelay:(double)arg1 ;
--(void)setUpdateTextLabelOnNextAnimation:(BOOL)arg1 ;
--(void)_cancelTimerAndResetAnimation;
--(void)_setupTimerWithDelay:(double)arg1 ;
--(void)_updateTextLabelIfNeeded;
--(void)_addHomeAffordanceAnimation;
--(void)_addTextAnimation;
--(BOOL)_shouldTeachAboutControlCenter;
--(void)_addControlCenterGrabberAnimation;
--(void)_addControlCenterGlyphAnimation;
--(void)setFireOffAnimationTimer:(NSTimer *)arg1 ;
--(void)_addHomeAffordanceResetAnimation;
--(void)_addTextResetAnimation;
--(void)_addControlCenterGrabberResetAnimation;
--(void)_addControlCenterGlyphResetAnimation;
--(void)_removeNormalAnimationsForKeyPath:(id)arg1 onLayer:(id)arg2 ;
--(void)_addResetAnimationForKeyPath:(id)arg1 onLayer:(id)arg2 ;
--(id)_textPositionAnimationWithDuration:(double)arg1 beginTime:(double)arg2 ;
--(id)_textAlphaAnimationWithDuration:(double)arg1 beginTime:(double)arg2 ;
--(id)_controlCenterGrabberPositionAnimationWithDuration:(double)arg1 beginTime:(double)arg2 ;
--(id)_controlCenterGrabberAlphaAnimationWithDuration:(double)arg1 beginTime:(double)arg2 ;
--(id)_controlCenterGlyphAlphaAnimationWithDuration:(double)arg1 beginTime:(double)arg2 ;
--(BOOL)updateTextLabelOnNextAnimation;
--(void)setCachedLegibilityLabels:(NSMutableDictionary *)arg1 ;
--(BOOL)controlCenterCoachingIsHidden;
--(void)setControlCenterCoachingIsHidden:(BOOL)arg1 ;
-@end
 
-@interface SBUIProudLockContainerViewController : UIView {
+@property(retain, nonatomic) UIView *homeAffordanceView; // @synthesize homeAffordanceView=_homeAffordanceView;
+@property(retain, nonatomic) UIView *homeAffordanceContainerView; // @synthesize homeAffordanceContainerView=_homeAffordanceContainerView;
+@property(retain, nonatomic) UIView *callToActionLabelContainerView; // @synthesize callToActionLabelContainerView=_callToActionLabelContainerView;
+@property(retain, nonatomic) UIView *controlCenterGlyphContainerView; // @synthesize controlCenterGlyphContainerView=_controlCenterGlyphContainerView;
+@property(retain, nonatomic) UIView *controlCenterGrabberContainerView; // @synthesize controlCenterGrabberContainerView=_controlCenterGrabberContainerView;
+@property(retain, nonatomic) UIView *controlCenterTutorsContainerView; // @synthesize controlCenterTutorsContainerView=_controlCenterTutorsContainerView;
+@property(retain, nonatomic) UIView *controlCenterGrabberEffectContainerView; // @synthesize controlCenterGrabberEffectContainerView=_controlCenterGrabberEffectContainerView;
+@property(retain, nonatomic) UIView *callToActionLabelPositionPlaceholderView; // @synthesize callToActionLabelPositionPlaceholderView=_callToActionLabelPositionPlaceholderView;
+@property(retain, nonatomic) SBUILegibilityLabel *callToActionLabel; // @synthesize callToActionLabel=_callToActionLabel;
+@property(retain, nonatomic) UIImageView *controlCenterGlyphView; // @synthesize controlCenterGlyphView=_controlCenterGlyphView;
+@property(retain, nonatomic) UIView *controlCenterGrabberPositionPlaceholderView; // @synthesize controlCenterGrabberPositionPlaceholderView=_controlCenterGrabberPositionPlaceholderView;
+@property(retain, nonatomic) UIView *controlCenterGrabberView; // @synthesize controlCenterGrabberView=_controlCenterGrabberView;
+@property(retain, nonatomic) _UILegibilitySettings *legibilitySettings; // @synthesize legibilitySettings=_legibilitySettings;
+- (id)_callToActionLabelFont;
+- (void)_preferredTextSizeChanged:(id)arg1;
+- (struct CGPoint)_grabberCenterForCointainerBounds:(struct CGRect)arg1 grabberTop:(double)arg2 grabberSize:(struct CGSize)arg3;
+- (void)_layoutControlCenterGrabberAndGlyph;
+- (void)_layoutCallToActionLabel;
+- (void)_layoutHomeAffordanceContainer;
+- (void)_addControlCenterTutors;
+- (void)_addCallToActionLabel;
+- (id)createCallToActionLabel;
+- (void)_updateViewsForLegibilitySettings;
+- (id)presentationRegions;
+- (void)layoutSubviews;
+- (id)initWithFrame:(struct CGRect)arg1;
+-(NSString *)text;
+-(SBUILegibilityLabel *)label;
+-(void)setLabel:(SBUILegibilityLabel *)textLabel;
+-(void)setText:(NSString *)arg1 ;
 
-	long long _desiredIconState;
-	unsigned long long _desiredCoachingCondition;
-	int _unlockSource;
-	BOOL _authenticated;
-	BOOL _screenOn;
-	BOOL _suppressScanningState;
-	BOOL _suppressNotLooking;
-	BOOL _guidanceTextVisible;
-	BOOL _canShowScanningState;
-	BOOL _shouldShowScanningState;
-	BOOL _canShowCoachingCondition;
-	BOOL _canLeaveCoachingCondition;
-	BOOL _hasSeenFaceSinceScreenOn;
-	BOOL _canShowCameraCovered;
-	_UILegibilitySettings* _legibilitySettings;
-	unsigned long long _forceCount;
-
-}
-@property (nonatomic, strong, readwrite) UIColor *textColor;
-@property (nonatomic, strong, readwrite) UIFont *font;
-@property (assign,nonatomic) BOOL canShowScanningState;                                                                                        //@synthesize canShowScanningState=_canShowScanningState - In the implementation block
-@property (assign,nonatomic) BOOL shouldShowScanningState;                                                                                     //@synthesize shouldShowScanningState=_shouldShowScanningState - In the implementation block
-@property (assign,nonatomic) BOOL canShowCoachingCondition;                                                                                    //@synthesize canShowCoachingCondition=_canShowCoachingCondition - In the implementation block
-@property (assign,nonatomic) BOOL canLeaveCoachingCondition;                                                                                   //@synthesize canLeaveCoachingCondition=_canLeaveCoachingCondition - In the implementation block
-@property (assign,nonatomic) BOOL hasSeenFaceSinceScreenOn;                                                                                    //@synthesize hasSeenFaceSinceScreenOn=_hasSeenFaceSinceScreenOn - In the implementation block
-@property (assign,nonatomic) BOOL canShowCameraCovered;                                                                                        //@synthesize canShowCameraCovered=_canShowCameraCovered - In the implementation block
-@property (nonatomic,copy) id unlockCompletion;                                                                                                //@synthesize unlockCompletion=_unlockCompletion - In the implementation block
-@property (assign,nonatomic) unsigned long long forceCount;                                                                                    //@synthesize forceCount=_forceCount - In the implementation block
-@property (nonatomic,retain) _UILegibilitySettings * legibilitySettings;                                                                       //@synthesize legibilitySettings=_legibilitySettings - In the implementation block
-@property (assign,getter=isAuthenticated,nonatomic) BOOL authenticated;                                                                        //@synthesize authenticated=_authenticated - In the implementation block
-@property (assign,getter=isScreenOn,nonatomic) BOOL screenOn;                                                                                  //@synthesize screenOn=_screenOn - In the implementation block
-@property (assign,nonatomic) BOOL suppressScanningState;                                                                                       //@synthesize suppressScanningState=_suppressScanningState - In the implementation block
-@property (assign,nonatomic) BOOL suppressNotLooking;                                                                                          //@synthesize suppressNotLooking=_suppressNotLooking - In the implementation block
-@property (nonatomic,readonly) UIView * cameraCoveredView; 
-@property (assign,getter=isGuidanceTextVisible,nonatomic) BOOL guidanceTextVisible;                                                            //@synthesize guidanceTextVisible=_guidanceTextVisible - In the implementation block
-@property (nonatomic,readonly) BOOL isPortrait; 
--(BOOL)isPortrait;
--(id)initWithAuthenticationInformationProvider:(id)arg1 ;
--(void)setSuppressScanningState:(BOOL)arg1 ;
--(void)setSuppressNotLooking:(BOOL)arg1 ;
--(void)updateLockForBiometricMatchFailure;
--(void)setAuthenticated:(BOOL)arg1 completion:(/*^block*/id)arg2 ;
--(void)handleBiometricEvent:(unsigned long long)arg1 ;
--(void)setScreenOn:(BOOL)arg1 ;
--(void)_setCounterTransformForOrientation:(long long)arg1 ;
--(void)_setLocalTransformForOrientation:(long long)arg1 ;
--(void)_updateIconViewStateAnimated:(BOOL)arg1 ;
--(void)_startScanningStateTimer;
--(id)_proudLockIconView;
--(unsigned long long)_effectiveCoachingConditionForCondition:(unsigned long long)arg1 orientation:(long long)arg2 ;
--(void)_setCoachingCondition:(unsigned long long)arg1 animated:(BOOL)arg2 force:(BOOL)arg3 ;
--(void)setScreenOn:(BOOL)arg1 fromUnlockSource:(int)arg2 ;
--(BOOL)_isBiometricLockedOut;
--(void)_allowCameraCoveredImmediately:(BOOL)arg1 ;
--(void)_allowCoachingConditionImmediately:(BOOL)arg1 ;
--(unsigned long long)_effectiveCoachingConditionForCondition:(unsigned long long)arg1 ;
--(void)_setCoachingCondition:(unsigned long long)arg1 animated:(BOOL)arg2 ;
--(void)setShouldShowScanningState:(BOOL)arg1 ;
--(void)_allowScanningState;
--(void)setCanShowScanningState:(BOOL)arg1 ;
--(void)_clearCoachingCondition;
--(void)_updateIconViewStateAnimated:(BOOL)arg1 force:(BOOL)arg2 completion:(/*^block*/id)arg3 ;
--(void)setCanLeaveCoachingCondition:(BOOL)arg1 ;
--(void)setCanShowCoachingCondition:(BOOL)arg1 ;
--(void)setHasSeenFaceSinceScreenOn:(BOOL)arg1 ;
--(void)setCanShowCameraCovered:(BOOL)arg1 ;
--(void)_performForcedUpdate:(/*^block*/id)arg1 ;
--(BOOL)suppressNotLooking;
--(void)_setIconState:(long long)arg1 animated:(BOOL)arg2 options:(long long)arg3 force:(BOOL)arg4 completion:(/*^block*/id)arg5 ;
--(void)_updateLockForMatchStarted;
--(void)_updateLockForFaceInView;
--(void)_dontCallThis_updateCoachingCondition:(unsigned long long)arg1 animated:(BOOL)arg2 ;
--(void)_dontCallThis_showLockIfNeededAnimated:(BOOL)arg1 force:(BOOL)arg2 completion:(/*^block*/id)arg3 ;
--(id)orientationProvider;
--(void)_setCoachingCondition:(unsigned long long)arg1 animated:(BOOL)arg2 skipScanningState:(BOOL)arg3 force:(BOOL)arg4 ;
--(BOOL)_canTransitionToState:(long long)arg1 ;
--(void)setUnlockCompletion:(id)arg1 ;
--(void)_allowLeavingCoachingCondition;
--(BOOL)isGuidanceTextVisible;
--(void)_updateScanningState;
--(void)_allowCoachingCondition;
--(BOOL)canShowCoachingCondition;
--(void)_reallyAllowCoachingConditionAnimated:(BOOL)arg1 ;
--(void)_reallyAllowCameraCovered;
--(BOOL)canShowCameraCovered;
--(void)_reallyAllowLeavingCoachingCondition;
--(void)updateForScreenWillTurnOff;
--(id)testProudLockIconView;
--(void)setTestProudLockIconView:(id)arg1 ;
--(BOOL)suppressScanningState;
--(void)setGuidanceTextVisible:(BOOL)arg1 ;
--(BOOL)canShowScanningState;
--(BOOL)shouldShowScanningState;
--(BOOL)canLeaveCoachingCondition;
--(BOOL)hasSeenFaceSinceScreenOn;
--(id)unlockCompletion;
--(unsigned long long)forceCount;
--(void)setForceCount:(unsigned long long)arg1 ;
--(void)_setIconState:(long long)arg1 animated:(BOOL)arg2 ;
--(BOOL)isScreenOn;
--(BOOL)isAuthenticated;
--(void)setAuthenticated:(BOOL)arg1 ;
--(void)viewWillAppear:(BOOL)arg1 ;
--(void)loadView;
--(void)reset;
--(void)viewDidLoad;
--(void)viewWillTransitionToSize:(CGSize)arg1 withTransitionCoordinator:(id)arg2 ;
--(void)setLegibilitySettings:(_UILegibilitySettings *)arg1 ;
--(void)setOrientationProvider:(id)arg1 ;
+// Remaining properties
+@property(readonly, copy) NSString *debugDescription;
+@property(readonly, copy) NSString *description;
 @end
 
 @class UIView, BSUICAPackageView, SBUICAPackageView, NSSet, LAUIPearlGlyphView, SBUIFaceIDCoachingView, SBUIFaceIDCameraGlyphView, _UILegibilitySettings, UIColor;
@@ -582,8 +434,97 @@ Header(s) *meow*
 - (id)initWithStyle:(long long)arg1;
 @end
 
-@interface SBUILegibilityLabel : UIView
-@property (nonatomic, retain) _UILegibilitySettings *legibilitySettings;
--(void)_updateLabelForLegibilitySettings;
+@class UILabel, _UILegibilityView, NSArray, UILayoutGuide, NSString, UIFont, NSAttributedString, UIColor, _UILegibilitySettings;
+
+@interface SBUILegibilityLabel : UIView {
+
+	UILabel* _lookasideLabel;
+	_UILegibilityView* _legibilityView;
+	BOOL _isDirty;
+	double _strength;
+	long long _options;
+	double _scale;
+	NSArray* _legibilityConstraints;
+	UILayoutGuide* _firstBaselineLayoutGuide;
+	UILayoutGuide* _lastBaselineLayoutGuide;
+	NSString* _string;
+	UIFont* _font;
+	NSAttributedString* _attributedText;
+	UIColor* _textColorOverride;
+	_UILegibilitySettings* _legibilitySettings;
+	BOOL _isWaitingToMoveToWindow;
+}
+@property (nonatomic,copy) NSAttributedString * attributedText;                       //@synthesize attributedText=_attributedText - In the implementation block
+@property (nonatomic,copy) NSString * string;                                         //@synthesize string=_string - In the implementation block
+@property (nonatomic,copy) UIColor * textColor; 
+@property (nonatomic,retain) UIFont * font;                                           //@synthesize font=_font - In the implementation block
+@property (assign,nonatomic) long long numberOfLines; 
+@property (assign,nonatomic) BOOL adjustsFontSizeToFitWidth; 
+@property (assign,nonatomic) double minimumScaleFactor; 
+@property (assign,nonatomic) long long textAlignment; 
+@property (assign,nonatomic) long long lineBreakMode; 
+@property (assign,nonatomic) BOOL useColorFilters; 
+@property (nonatomic,readonly) UIEdgeInsets characterOverflowInsets; 
+@property (nonatomic,readonly) double firstBaselineOffsetFromBottom; 
+@property (nonatomic,readonly) double lastBaselineOffsetFromBottom; 
+@property (nonatomic,readonly) double baselineOffset; 
+@property (readonly) unsigned long long hash; 
+@property (readonly) Class superclass; 
+@property (copy,readonly) NSString * description; 
+@property (copy,readonly) NSString * debugDescription; 
+@property (nonatomic,retain) _UILegibilitySettings * legibilitySettings; 
+@property (assign,nonatomic) double strength;                                         //@synthesize strength=_strength - In the implementation block
+-(id)initWithFrame:(CGRect)arg1 ;
+-(void)setFrame:(CGRect)arg1 ;
+-(void)setNumberOfLines:(long long)arg1 ;
+-(void)setTextAlignment:(long long)arg1 ;
+-(void)setAttributedText:(NSAttributedString *)arg1 ;
+-(void)layoutSubviews;
+-(id)initWithCoder:(id)arg1 ;
+-(void)didMoveToWindow;
+-(void)setBounds:(CGRect)arg1 ;
+-(CGSize)sizeThatFits:(CGSize)arg1 ;
+-(void)setFont:(UIFont *)arg1 ;
+-(void)setTextColor:(UIColor *)arg1 ;
+-(NSString *)string;
+-(void)setString:(NSString *)arg1 ;
+-(void)setLineBreakMode:(long long)arg1 ;
+-(void)setOptions:(long long)arg1 ;
+-(UIFont *)font;
+-(UIColor *)textColor;
+-(long long)textAlignment;
+-(NSAttributedString *)attributedText;
+-(long long)lineBreakMode;
+-(void)setAdjustsFontSizeToFitWidth:(BOOL)arg1 ;
+-(id)viewForLastBaselineLayout;
+-(double)baselineOffset;
+-(void)setMinimumScaleFactor:(double)arg1 ;
+-(double)minimumScaleFactor;
+-(long long)numberOfLines;
+-(BOOL)adjustsFontSizeToFitWidth;
+-(void)setLegibilitySettings:(_UILegibilitySettings *)arg1 ;
+-(_UILegibilitySettings *)legibilitySettings;
+-(id)viewForFirstBaselineLayout;
+-(double)strength;
+-(void)setStrength:(double)arg1 ;
+-(id)initWithSettings:(id)arg1 strength:(double)arg2 string:(id)arg3 font:(id)arg4 options:(long long)arg5 ;
+-(id)initWithSettings:(id)arg1 strength:(double)arg2 string:(id)arg3 font:(id)arg4 ;
 -(void)_updateLegibilityView;
+-(UIEdgeInsets)characterOverflowInsets;
+-(void)setUseColorFilters:(BOOL)arg1 ;
+-(double)firstBaselineOffsetFromBottom;
+-(void)_markOurselfDirty;
+-(double)_layoutGuideOffsetFromBottom:(id)arg1 ;
+-(BOOL)useColorFilters;
+-(void)_updateLabelForLegibilitySettings;
+-(BOOL)_needsColorImage;
+-(double)lastBaselineOffsetFromBottom;
+-(id)initWithSettings:(id)arg1 strength:(double)arg2 ;
+@end
+
+@interface SBUICallToActionLabel 
+-(NSString *)text;
+-(SBUILegibilityLabel *)label;
+-(void)setLabel:(SBUILegibilityLabel *)textLabel;
+-(void)setText:(NSString *)arg1 ;
 @end

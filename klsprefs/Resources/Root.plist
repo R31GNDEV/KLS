@@ -30,26 +30,6 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Set Footer Label</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>default</key>
-			<string>Kota♥</string>
-			<key>defaults</key>
-			<string>gay.kota.basiccarrier</string>
-			<key>key</key>
-			<string>textSet</string>
-			<key>placeholder</key>
-			<string>Set Footer Text</string>
-			<key>height</key>
-			<real>44</real>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
 			<string>Main Time Colors</string>
 		</dict>
 		<dict>
@@ -134,6 +114,36 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Text Shadow Radius Settings</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+            <string>PSSliderCell</string>
+            <key>cellClass</key>
+			<string>KLSLabeledSliderCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>key</key>
+			<string>shadowRadius</string>
+			<key>default</key>
+			<string>5</string>
+			<key>min</key>
+			<string>1</string>
+			<key>max</key>
+			<string>20</string>
+			<key>isSegmented</key>
+			<true/>
+			<key>label</key>								<!-- The label will be used for the label above the slider -->
+			<string>Shadow Radius</string>
+			<key>shadowRadius</key>		<!-- Optional key used for localization -->
+			<string>Root</string>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Border Corner Radius Settings</string>
 		</dict>
 		<dict>
@@ -177,6 +187,50 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBColorPickerTableCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>default</key>
+			<string>#33b5e5</string>
+			<key>key</key>
+			<string>borderColor</string>
+			<key>label</key>
+			<string>Border Around the Box</string>
+			<key>showAlphaSlider</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Press Home/Swipe Up To Unlock</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>placeholder</key>
+			<string>Enter custom text here...</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>key</key>
+			<string>customTextUnlock</string>
+			<key>label</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Save Text</string>
+			<key>action</key>
+			<string>save</string>
 		</dict>
 		<dict>
 			<key>cell</key>
