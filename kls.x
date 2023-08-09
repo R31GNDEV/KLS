@@ -4,7 +4,7 @@ Kota LockScreen
 
 #include "kls.h"
 
-UIColor* necksusSucksBalls(NSString* hexString) {
+UIColor* colorFromHexString(NSString* hexString) {
     NSString *daString = [hexString stringByReplacingOccurrencesOfString:@" " withString:@""];
     if (![daString containsString:@"#"]) {
         daString = [@"#" stringByAppendingString:daString];
@@ -47,7 +47,10 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 			customText = @"";
  }
 }
- [self label].string = customText;
+ UILabel *label = [self callToActionLabel];
+ if (label) {
+  label.string = customText;
+ }
 }
 %end
 */
@@ -63,13 +66,13 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
   }
   origLayer.cornerRadius = setCornerRadius;
   if (glowColorString) {
-    origLayer.shadowColor = necksusSucksBalls(glowColorString).CGColor;
+    origLayer.shadowColor = colorFromHexString(glowColorString).CGColor;
   }
   if (backColorString) {
-    origLayer.backgroundColor = necksusSucksBalls(backColorString).CGColor;
+    origLayer.backgroundColor = colorFromHexString(backColorString).CGColor;
   }
   if (borderColorString) {
-    origLayer.borderColor = necksusSucksBalls(borderColorString).CGColor;
+    origLayer.borderColor = colorFromHexString(borderColorString).CGColor;
   }
   origLayer.borderWidth = 1;
   origLayer.shadowOpacity = 1;
@@ -88,7 +91,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 
  /* Get the settings */
  if (textColorNew) {
-   daLabel.legibilitySettings.primaryColor = necksusSucksBalls(textColorNew);
+   daLabel.legibilitySettings.primaryColor = colorFromHexString(textColorNew);
  }
 
  /* Declare our NSStrings for Prefs */
@@ -101,7 +104,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
  NSString *shadowColorString = [_preferences objectForKey:@"bananas"];
  daLabel.layer.shadowOffset = CGSizeMake(0,0);
  if (shadowColorString) {
- daLabel.layer.shadowColor = necksusSucksBalls(shadowColorString).CGColor;
+ daLabel.layer.shadowColor = colorFromHexString(shadowColorString).CGColor;
  }
  CGFloat setShadowRadius = [_preferences floatForKey:@"shadowRadius"];
  if (!(setShadowRadius >= 0)){
@@ -121,7 +124,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
  SBUILegibilityLabel *daLabel = subviews[0];
  
  if (textColorTwo) {
- daLabel.legibilitySettings.primaryColor = necksusSucksBalls(textColorTwo);
+ daLabel.legibilitySettings.primaryColor = colorFromHexString(textColorTwo);
  }
 
  [daLabel _updateLabelForLegibilitySettings];
@@ -131,7 +134,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
  daLabel.layer.shadowOffset = CGSizeMake(0,0);
  NSString *textShadow = [_preferences objectForKey:@"shadowColor2"];
  if (textShadow) {
- daLabel.layer.shadowColor = necksusSucksBalls(textShadow).CGColor;
+ daLabel.layer.shadowColor = colorFromHexString(textShadow).CGColor;
  }
  CGFloat setShadowRadius = [_preferences floatForKey:@"shadowRadius"];
  if (!(setShadowRadius >= 0)){
