@@ -35,25 +35,30 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
     return YES;
 }
 %end
-/* 
+
 %hook CSTeachableMomentsContainerView
 - (void)_layoutCallToActionLabel{
+  %orig;
   id enabled = [_preferences objectForKey:@"enabled"];
-	NSString *customText = [_preferences objectForKey:@"customTextUnlock"];
+    NSString *customText = [_preferences objectForKey:@"customTextUnlock"];
+ if (!customText) {
+  /* customText does not exist - return */
+  return;
+ }
   NSUInteger characterCount = [customText length];
   if ([enabled isEqual:@1] && characterCount > 0){
-	NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
-	if ([[customText stringByTrimmingCharactersInSet: set] length] == 0) {
-			customText = @"";
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    if ([[customText stringByTrimmingCharactersInSet: set] length] == 0) {
+            customText = @"";
  }
 }
- UILabel *label = [self callToActionLabel];
+ SBUILegibilityLabel *label = [self callToActionLabel];
  if (label) {
   label.string = customText;
  }
 }
 %end
-*/
+
 %hook SBFLockScreenDateView
 -(CALayer *)layer {
   CALayer *origLayer = %orig;
