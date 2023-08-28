@@ -27,6 +27,7 @@ UIColor* colorFromHexString(NSString* hexString) {
 
 NSUserDefaults *_preferences;
 BOOL _enabled;
+BOOL _enabledFloater;
 BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 
 
@@ -84,6 +85,69 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
   origLayer.shadowOffset = CGSizeMake(0.0f,4.0f);
   return origLayer;
 }
+
+-(void)didMoveToWindow {
+ if (!self) {
+  return;
+ }
+ if (!self.layer) {
+  return;
+ }
+ if ([self.layer animationForKey:@"enabledFloater"]) {
+  return;
+ }
+ 
+ CABasicAnimation* colorAnimation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
+    NSString *bend1String = [_preferences objectForKey:@"flowcolor1"];
+    NSString *bend2String = [_preferences objectForKey:@"flowcolor2"];
+    if (bend1String){
+      UIColor *fromColor = colorFromHexString(bend1String);
+      colorAnimation.fromValue = (id)fromColor.CGColor;
+    }
+    if (bend2String){
+    UIColor *toColor = colorFromHexString(bend2String);
+    colorAnimation.toValue = (id)toColor.CGColor;
+    }
+    colorAnimation.repeatCount = INFINITY;
+    colorAnimation.duration = 5;
+    colorAnimation.autoreverses = YES;
+    [self.layer addAnimation:colorAnimation forKey:@"enabledFloater"];
+
+ CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
+ floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(self.frame.origin.y + 500)];
+ floatingLabelAnimation.toValue = [NSNumber numberWithDouble:(self.frame.origin.y - -200)];
+ floatingLabelAnimation.duration = 5;
+ floatingLabelAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+ floatingLabelAnimation.autoreverses = YES;
+ floatingLabelAnimation.repeatCount = INFINITY;
+ [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
+}
+
+-(instancetype)initWithFrame:(CGRect)frame {
+ /* run the original code */
+ /* Not done yet
+ NSString *mainFont = [_preferences objectForKey:@"mainFont"];
+ NSString *subFont = [_preferences objectForKey:@"subFont"];
+ */
+ id returnedFromOriginalMethod = %orig;
+ if (returnedFromOriginalMethod) {
+  /* set the font */
+  SBUILegibilityLabel *timeLabel = [returnedFromOriginalMethod valueForKey:@"_timeLabel"];
+  if (timeLabel) {
+   timeLabel.font = [UIFont fontWithName:@"AcademyEngravedLetPlain" size:timeLabel.font.pointSize];
+  }
+  /* set the font for date label */
+  SBFLockScreenDateSubtitleDateView *dateSubtitleView = [returnedFromOriginalMethod valueForKey:@"_dateSubtitleView"];
+  if (dateSubtitleView) {
+   SBUILegibilityLabel *dateLabel = dateSubtitleView.subviews[0];
+   if (dateLabel) {
+    dateLabel.font = [UIFont fontWithName:@"AcademyEngravedLetPlain" size:dateLabel.font.pointSize ];
+   }
+  }
+ }
+ return returnedFromOriginalMethod;
+}
+
 /* Seems like the date view (should) always be index 0, with subtitle being below */
 -(NSArray *)subviews {
  NSArray *subviews = %orig;

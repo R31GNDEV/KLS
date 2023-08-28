@@ -30,6 +30,24 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Core Animation(fun)</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>key</key>
+			<string>enabledFloater</string>
+			<key>label</key>
+			<string>Enable Time Float</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Main Time Colors</string>
 		</dict>
 		<dict>
@@ -42,9 +60,9 @@
 			<key>default</key>
 			<string>#33b5e5</string>
 			<key>key</key>
-			<string>textColorNew</string>
+			<string>flowcolor1</string>
 			<key>label</key>
-			<string>Main Time Text Color</string>
+			<string>Main Time(flow) Text Color</string>
 			<key>showAlphaSlider</key>
 			<true/>
 			<key>PostNotification</key>
@@ -60,9 +78,9 @@
 			<key>default</key>
 			<string>#33b5e5</string>
 			<key>key</key>
-			<string>shadowColor</string>
+			<string>flowcolor2</string>
 			<key>label</key>
-			<string>Shadow Color behind Main Time</string>
+			<string>Shadow Color (flow)behind Main Time</string>
 			<key>showAlphaSlider</key>
 			<true/>
 			<key>PostNotification</key>
