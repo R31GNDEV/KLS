@@ -6,6 +6,19 @@ Header(s) *meow*
 
 */
 
+@interface GradientProgressView : UIView <CAAnimationDelegate> {
+    
+    CALayer *maskLayer;
+}
+
+@property (nonatomic, readonly, getter=isAnimating) BOOL animating;
+@property (nonatomic, readwrite, assign) CGFloat progress;
+
+- (void)startAnimating;
+- (void)stopAnimating;
+
+@end
+
 @class UILabel, SBUILegibilityLabel, SBFLockScreenDateSubtitleDateView, SBFLockScreenDateSubtitleView, NSHashTable, NSDate, UIColor, _UILegibilitySettings, NSString;
 
 @interface BSUICAPackageView : UIView {
