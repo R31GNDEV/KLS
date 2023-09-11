@@ -379,16 +379,16 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
   return;
  }
  // firstSuperview holds MRUNowPlayingView as a subview
- CSMediaControlsView *controlsView = firstSuperview.superview;
+ UIView *controlsView = firstSuperview.superview;
  if (!controlsView) {
   return;
  }
  // thats the second superview
- PLPlatterCustomContentView *thirdSuperview = controlsView.superview;
+ UIView *thirdSuperview = controlsView.superview;
  if (!thirdSuperview) {
   return;
  }
- PLPlatterView *platterView = thirdSuperview.superview;
+ UIView *platterView = thirdSuperview.superview;
  if (!platterView) {
   return;
  }
@@ -399,12 +399,12 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
    //WE GOT THE FUCKING MATERIAL VIEW
    //HOPE TO GOD THAT THERE WILL NEVER BE TWO MATERIALS HERE BECAUSE IF SO WE FUCKED UP LMAOOO
    //anyways, change time
-   MTMaterialView *daMaterialView = daView;
+   UIView *daMaterialView = daView;
    //oh, by the way, if you're wondering why daMaterialView.borderColor changes daView.borderColor even though it's a new variable...
    //this is because daView is just a pointer to a view
    //same with daMaterialView. when we make a new variable here, we aren't actually making a new view, we are setting our new pointer to point to the same view in memory as daView.
    //anyways, borderColor change time
-   daMaterialView.borderColor = [UIColor systemPinkColor].CGColor;
+   daMaterialView.layer.borderColor = [UIColor systemPinkColor].CGColor;
    daMaterialView.layer.borderWidth = 3;
   }
  }

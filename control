@@ -1,6 +1,6 @@
 Package: gay.kota.kls
 Name: KLS
-Version: 0.6
+Version: 0.6.0.1
 Architecture: iphoneos-arm
 Description: Customize your Lock Screen
 Maintainer: Kota
