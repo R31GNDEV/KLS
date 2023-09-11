@@ -366,6 +366,50 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 }
 %end
 
+%hook MRUNowPlayingView
+-(void)didMoveToWindow { //TODO: If there is a better method (didMoveToSuperview will prob be better since we are messing with the superview associated with it and that is called once the view gets added, but using this just to be extra safe for now
+ //safety check just in case
+ if (!self) {
+  //this should never happen, but just in case the world explodes...
+  return;
+ }
+ UIView *firstSuperview = self.superview;
+ if (!firstSuperview) {
+  return;
+ }
+ // firstSuperview holds MRUNowPlayingView as a subview
+ CSMediaControlsView *controlsView = firstSuperview.superview;
+ if (!controlsView) {
+  return;
+ }
+ // thats the second superview
+ PLPlatterCustomContentView *thirdSuperview = controlsView.superview;
+ if (!thirdSuperview) {
+  return;
+ }
+ PLPlatterView *platterView = thirdSuperview.superview;
+ if (!platterView) {
+  return;
+ }
+ // ok so we have the superview that holds the thirdSuperview and the MTMaterialView we wanna change
+ // maybe the MTMaterialView is at a specific index which would be a bit faster but no time for that
+ for (UIView *daView in platterView.subviews) {
+  if ([daView isMemberOfClass:%c(MTMaterialView)]) {
+   //WE GOT THE FUCKING MATERIAL VIEW
+   //HOPE TO GOD THAT THERE WILL NEVER BE TWO MATERIALS HERE BECAUSE IF SO WE FUCKED UP LMAOOO
+   //anyways, change time
+   MTMaterialView *daMaterialView = daView;
+   //oh, by the way, if you're wondering why daMaterialView.borderColor changes daView.borderColor even though it's a new variable...
+   //this is because daView is just a pointer to a view
+   //same with daMaterialView. when we make a new variable here, we aren't actually making a new view, we are setting our new pointer to point to the same view in memory as daView.
+   //anyways, borderColor change time
+   daMaterialView.borderColor = [UIColor systemPinkColor].CGColor;
+   daMaterialView.borderWidth = 3;
+  }
+ }
+}
+%end
+
 /*
 Init prefs
 */
