@@ -3,6 +3,7 @@ Kota LockScreen
 */
 
 #include "kls.h"
+#include "mru.h"
 
 UIColor* colorFromHexString(NSString* hexString) {
     NSString *daString = [hexString stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -404,7 +405,7 @@ BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
    //same with daMaterialView. when we make a new variable here, we aren't actually making a new view, we are setting our new pointer to point to the same view in memory as daView.
    //anyways, borderColor change time
    daMaterialView.borderColor = [UIColor systemPinkColor].CGColor;
-   daMaterialView.borderWidth = 3;
+   daMaterialView.layer.borderWidth = 3;
   }
  }
 }
