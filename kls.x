@@ -29,6 +29,7 @@ UIColor* colorFromHexString(NSString* hexString) {
 NSUserDefaults *_preferences;
 BOOL _enabled;
 BOOL _enabledFloater;
+BOOL USE_TRANS_COLORS;
 
 
 %hook HBForceCepheiPrefs
@@ -69,7 +70,7 @@ BOOL _enabledFloater;
 @synthesize animating, progress;
 
 - (id)initWithFrame:(CGRect)frame {
-    
+
     if ((self = [super initWithFrame:frame])) {
         
         // Use a horizontal gradient
@@ -298,7 +299,7 @@ unsigned int didAddSubview = 0x0;
     colorAnimation.autoreverses = YES;
     [self.layer addAnimation:colorAnimation forKey:@"enabledFloater"];
 
- if ([_preferences boolForKey:@"enabledFloater") {
+ if ([_preferences boolForKey:@"enabledFloater"]) {
  CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
  floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(self.frame.origin.y + 500)];
  floatingLabelAnimation.toValue = [NSNumber numberWithDouble:(self.frame.origin.y - -200)];
@@ -308,11 +309,15 @@ unsigned int didAddSubview = 0x0;
  floatingLabelAnimation.repeatCount = INFINITY;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
  }
-
  if (didAddSubview) {
   /* we already added the subview; return */
   return;
  }
+ didAddSubview = 1;
+if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
+ /* not enabled so return */
+ return;
+}
  didAddSubview = 1;
  CGRect gradientFrame = CGRectMake(0,0,self.frame.size.width,self.frame.size.height);
  GradientProgressView *gradientProgressView = [[GradientProgressView alloc]initWithFrame:gradientFrame];
@@ -328,7 +333,7 @@ unsigned int didAddSubview = 0x0;
    }
   }
   [ugh insertSubview:gradientProgressView atIndex:0];
-  if ([_preferences boolForKey:@"enabledFloater") {
+  if ([_preferences boolForKey:@"enabledFloater"]) {
   /* add the same floating label anim */
   CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
   floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(gradientProgressView.frame.origin.y + 500)];
