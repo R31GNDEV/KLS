@@ -254,11 +254,12 @@ BOOL _enabledFloater;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
 
   /* make sure that we haven't already added the view */
+ /* not sure what to classify this bug type, but there is a chance that we may add it multiple times if another view is added after we add it, but eh works fine enough */
  NSArray *subviews = [self subviews];
  if ([self subviews]) {
-  id subviewzero = subviews[0];
-  if (subviewzero) {
-   if ([subviewzero isMemberOfClass:[GradientProgressView class]]) {
+  id subviewlast = [subviews lastObject];
+  if (subviewlast) {
+   if ([subviewlast isMemberOfClass:[GradientProgressView class]]) {
     /* alright, we already have added, let's return :P */
     return;
    }
@@ -266,10 +267,12 @@ BOOL _enabledFloater;
  }
  CGRect gradientFrame = CGRectMake(0,0,self.frame.size.width,self.frame.size.height);
  GradientProgressView *gradientProgressView = [[GradientProgressView alloc]initWithFrame:gradientFrame];
- [self insertSubview:gradientProgressView atIndex:0];
+ [self addSubview:gradientProgressView];
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
  [gradientProgressView setProgress:100.0];
+ [gradientProgressView setAlpha:0.5];
+ [gradientProgressView setUserInteractionEnabled:NO];
  [gradientProgressView startAnimating];
 }
 
