@@ -304,15 +304,18 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
  floatingLabelAnimation.repeatCount = INFINITY;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
 
- /* make sure that we haven't already added the view */
+ /* hacky code to make sure that we haven't already added the view */
  /* not sure what to classify this bug type, but there is a chance that we may add it multiple times if another view is added after we add it, but eh works fine enough */
  NSArray *subviews = [self subviews];
- if ([self subviews]) {
-  id subviewlast = [subviews lastObject];
-  if (subviewlast) {
-   if ([subviewlast isMemberOfClass:[GradientProgressView class]]) {
-    /* alright, we already have added, let's return :P */
-    return;
+ if (subviews) {
+  int subviewGradientIndex = [subviews count] - 3; /* -3 since there should be two subviews above */
+  if (subviewGradientIndex > 0) {
+   id subviewgrad = subviews[subviewGradientIndex];
+   if (subviewgrad) {
+    if ([subviewgrad isMemberOfClass:[GradientProgressView class]]) {
+     /* alright, we already have added, let's return :P */
+     return;
+    }
    }
   }
  }
@@ -322,9 +325,18 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
  [gradientProgressView setProgress:100.0];
- [gradientProgressView setAlpha:0.5];
+ [gradientProgressView setAlpha:1.0];
  [gradientProgressView setUserInteractionEnabled:NO];
  [gradientProgressView startAnimating];
+ /* HACK: Overlay the time on the gradient */
+ if (subviews) {
+  if (subviews[0]) {
+   [self addSubview:subviews[0]];
+  }
+  if (subviews[1]) {
+   [self addSubview:subviews[1]];
+  }
+ }
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
