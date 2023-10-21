@@ -297,6 +297,7 @@ unsigned int didAddSubview = 0x0;
     colorAnimation.repeatCount = INFINITY;
     colorAnimation.duration = 5;
     colorAnimation.autoreverses = YES;
+    
     [self.layer addAnimation:colorAnimation forKey:@"enabledFloater"];
 
  if ([_preferences boolForKey:@"enabledFloater"]) {
@@ -347,6 +348,8 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  }
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
+ CGFloat setCornerRadius = [_preferences floatForKey:@"cornerRadius"];
+ gradientProgressView.layer.cornerRadius = setCornerRadius;
  [gradientProgressView setProgress:100.0];
  [gradientProgressView setAlpha:1.0];
  [gradientProgressView setUserInteractionEnabled:NO];
@@ -497,8 +500,9 @@ Init prefs
 %ctor {
 	_preferences = [[NSUserDefaults alloc] initWithSuiteName:@"gay.kota.kls"];
 	[_preferences registerDefaults:@{
-		@"enabled" : @YES,
+	@"enabled" : @YES,
     @"customTextUnlock": @"",
+    @"cornerRadius": @0,
 	}];
 	_enabled = [_preferences boolForKey:@"enabled"];
 	if(_enabled) {
