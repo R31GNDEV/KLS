@@ -243,6 +243,8 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
 
 @end
 
+unsigned int didAddSubview = 0x0;
+
 %hook SBFLockScreenDateView
 -(CALayer *)layer {
   CALayer *origLayer = %orig;
@@ -304,22 +306,11 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
  floatingLabelAnimation.repeatCount = INFINITY;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
 
- /* hacky code to make sure that we haven't already added the view */
- /* this depends on the view having two subviews normally for time and clock */
- /* not sure what to classify this bug type, but there is a chance that we may add it multiple times if another view is added after we add it, but eh works fine enough */
- NSArray *subviews = [self subviews];
- if (subviews) {
-  int subviewGradientIndex = [subviews count] - 3; /* -3 since there should be two subviews above */
-  if (subviewGradientIndex > 0) {
-   id subviewgrad = subviews[subviewGradientIndex];
-   if (subviewgrad) {
-    if ([subviewgrad isMemberOfClass:[GradientProgressView class]]) {
-     /* alright, we already have added, let's return :P */
-     return;
-    }
-   }
-  }
+ if (didAddSubview) {
+  /* we already added the subview; return */
+  return;
  }
+ didAddSubview = 1;
  CGRect gradientFrame = CGRectMake(0,0,self.frame.size.width,self.frame.size.height);
  GradientProgressView *gradientProgressView = [[GradientProgressView alloc]initWithFrame:gradientFrame];
  [self addSubview:gradientProgressView];
@@ -330,13 +321,10 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
  [gradientProgressView setUserInteractionEnabled:NO];
  [gradientProgressView startAnimating];
  /* HACK: Overlay the time on the gradient */
- if (subviews) {
-  if (subviews[0]) {
-   [self addSubview:subviews[0]];
-  }
-  if (subviews[1]) {
-   [self addSubview:subviews[1]];
-  }
+ NSArray *subviews = [self subviews];
+ int origSubviewCount = [subviews count] - 1;
+ for (int i = 0; i < origSubviewCount; i++) {
+  [self addSubview:subviews[i]];
  }
 }
 
