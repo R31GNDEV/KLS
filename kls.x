@@ -29,7 +29,6 @@ UIColor* colorFromHexString(NSString* hexString) {
 NSUserDefaults *_preferences;
 BOOL _enabled;
 BOOL _enabledFloater;
-BOOL forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear;
 
 
 %hook HBForceCepheiPrefs
