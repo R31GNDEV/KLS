@@ -305,6 +305,7 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
 
  /* hacky code to make sure that we haven't already added the view */
+ /* this depends on the view having two subviews normally for time and clock */
  /* not sure what to classify this bug type, but there is a chance that we may add it multiple times if another view is added after we add it, but eh works fine enough */
  NSArray *subviews = [self subviews];
  if (subviews) {
