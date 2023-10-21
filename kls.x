@@ -281,6 +281,7 @@ unsigned int didAddSubview = 0x0;
  if ([self.layer animationForKey:@"enabledFloater"]) {
   return;
  }
+ /* no idea what this does, i just saw it's here and forgot what it was supposed to do but im too busy working on a bugfix to ask kota */
  CABasicAnimation* colorAnimation = [CABasicAnimation animationWithKeyPath:@"textColorNew"];
     NSString *bend1String = [_preferences objectForKey:@"flowcolor1"];
     NSString *bend2String = [_preferences objectForKey:@"flowcolor2"];
@@ -297,6 +298,7 @@ unsigned int didAddSubview = 0x0;
     colorAnimation.autoreverses = YES;
     [self.layer addAnimation:colorAnimation forKey:@"enabledFloater"];
 
+ if ([_preferences boolForKey:@"enabledFloater") {
  CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
  floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(self.frame.origin.y + 500)];
  floatingLabelAnimation.toValue = [NSNumber numberWithDouble:(self.frame.origin.y - -200)];
@@ -305,6 +307,7 @@ unsigned int didAddSubview = 0x0;
  floatingLabelAnimation.autoreverses = YES;
  floatingLabelAnimation.repeatCount = INFINITY;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
+ }
 
  if (didAddSubview) {
   /* we already added the subview; return */
@@ -325,6 +328,7 @@ unsigned int didAddSubview = 0x0;
    }
   }
   [ugh insertSubview:gradientProgressView atIndex:0];
+  if ([_preferences boolForKey:@"enabledFloater") {
   /* add the same floating label anim */
   CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
   floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(gradientProgressView.frame.origin.y + 500)];
@@ -334,6 +338,7 @@ unsigned int didAddSubview = 0x0;
   floatingLabelAnimation.autoreverses = YES;
   floatingLabelAnimation.repeatCount = INFINITY;
   [gradientProgressView.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
+  }
  }
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
