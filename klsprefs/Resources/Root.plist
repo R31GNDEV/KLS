@@ -72,7 +72,7 @@
 			<key>default</key>
 			<string>#33b5e5</string>
 			<key>key</key>
-			<string>flowcolor1</string>
+			<string>textColorTwo</string>
 			<key>label</key>
 			<string>Main Time(flow) Text Color</string>
 			<key>showAlphaSlider</key>
@@ -114,7 +114,7 @@
 			<key>default</key>
 			<string>#33b5e5</string>
 			<key>key</key>
-			<string>subtitleColor</string>
+			<string>textColorTwo</string>
 			<key>label</key>
 			<string>Subtitle Time Text Color</string>
 			<key>showAlphaSlider</key>

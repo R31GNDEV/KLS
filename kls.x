@@ -384,7 +384,7 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
 /* Seems like the date view (should) always be index 0, with subtitle being below */
 -(NSArray *)subviews {
  NSArray *subviews = %orig;
- NSString *textColorNew = [_preferences objectForKey:@"textColorNew"];
+ NSString *textColorNew = [_preferences objectForKey:@"textColorTwo"];
  SBUILegibilityLabel *daLabel = subviews[0];
  /* The good shit */
  /* So I toyed around with SBUILegibilityLabel */
