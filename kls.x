@@ -237,6 +237,10 @@ UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpo
     }
 }
 
+- (CGFloat)interpolateValueWithStart:(CGFloat)startValue end:(CGFloat)endValue progress:(CGFloat)progresss {
+    return startValue + (endValue - startValue) * progresss;
+}
+
 @end
 
 %hook SBFLockScreenDateView
