@@ -313,19 +313,17 @@ unsigned int didAddSubview = 0x0;
  didAddSubview = 1;
  CGRect gradientFrame = CGRectMake(0,0,self.frame.size.width,self.frame.size.height);
  GradientProgressView *gradientProgressView = [[GradientProgressView alloc]initWithFrame:gradientFrame];
- [self addSubview:gradientProgressView];
+ /* If this actually works I'm going to scream */
+ UIView *ugh = [self superview];
+ if (ugh) {
+  [ugh insertSubview:gradientProgressView atIndex:0];
+ }
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
  [gradientProgressView setProgress:100.0];
  [gradientProgressView setAlpha:1.0];
  [gradientProgressView setUserInteractionEnabled:NO];
  [gradientProgressView startAnimating];
- /* HACK: Overlay the time on the gradient */
- NSArray *subviews = [self subviews];
- int origSubviewCount = [subviews count] - 1;
- for (int i = 0; i < origSubviewCount; i++) {
-  [self addSubview:subviews[i]];
- }
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
