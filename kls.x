@@ -60,6 +60,10 @@ BOOL _enabledFloater;
 }
 %end
 
+#define USE_TRANS_COLORS 1
+
+/* This is our own custom object for a rainbow gradient view */
+
 @implementation GradientProgressView
 
 @synthesize animating, progress;
@@ -77,6 +81,19 @@ BOOL _enabledFloater;
         // Create the gradient colors using hues in 5 degree increments
         
         NSMutableArray *colors = [NSMutableArray array];
+#if USE_TRANS_COLORS
+
+/* you could use a for loop for this but imma flex */
+unsigned int i = 0;
+hacky_ugly_diy_for_loop:
+[colors addObject:(id)[[UIColor colorWithRed:91 green:206 blue:250 alpha:1] CGColor]]; /* baby blue */
+[colors addObject:(id)[[UIColor colorWithRed:245 green:169 blue:184 alpha:1] CGColor]]; /* baby pink */
+[colors addObject:(id)[[UIColor colorWithRed:255 green:255 blue:255 alpha:1] CGColor]]; /* white */
+[colors addObject:(id)[[UIColor colorWithRed:245 green:169 blue:184 alpha:1] CGColor]]; /* baby pink */
+i++;
+if (i != 2) { goto hacky_ugly_diy_for_loop; };
+
+#else
         for (NSInteger deg = 0; deg <= 360; deg += 5) {
             
             UIColor *color;
@@ -86,6 +103,7 @@ BOOL _enabledFloater;
                                     alpha:1.0];
             [colors addObject:(id)[color CGColor]];
         }
+#endif
         [layer setColors:[NSArray arrayWithArray:colors]];
         
         // Create another layer to use as a mask. The width of this layer will
@@ -253,7 +271,7 @@ BOOL _enabledFloater;
  floatingLabelAnimation.repeatCount = INFINITY;
  [self.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
 
-  /* make sure that we haven't already added the view */
+ /* make sure that we haven't already added the view */
  /* not sure what to classify this bug type, but there is a chance that we may add it multiple times if another view is added after we add it, but eh works fine enough */
  NSArray *subviews = [self subviews];
  if ([self subviews]) {
