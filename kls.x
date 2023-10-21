@@ -316,7 +316,24 @@ unsigned int didAddSubview = 0x0;
  /* If this actually works I'm going to scream */
  UIView *ugh = [self superview];
  if (ugh) {
+  NSArray *subviews = [ugh subviews];
+  if (subviews) {
+   UIView *subviewzero = subviews[0];
+   if (subviewzero) {
+    /* set frame to ourself */
+    [gradientProgressView setFrame:CGRectMake(subviewzero.frame.origin.x, subviewzero.frame.origin.y, subviewzero.frame.size.width, subviewzero.frame.size.height)];
+   }
+  }
   [ugh insertSubview:gradientProgressView atIndex:0];
+  /* add the same floating label anim */
+  CABasicAnimation *floatingLabelAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
+  floatingLabelAnimation.fromValue = [NSNumber numberWithDouble:(gradientProgressView.frame.origin.y + 500)];
+  floatingLabelAnimation.toValue = [NSNumber numberWithDouble:(gradientProgressView.frame.origin.y - -200)];
+  floatingLabelAnimation.duration = 5;
+  floatingLabelAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  floatingLabelAnimation.autoreverses = YES;
+  floatingLabelAnimation.repeatCount = INFINITY;
+  [gradientProgressView.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
  }
  /* we have added the GradientProgressView to ourselves */
  /* now, lets start the animation... */
