@@ -392,6 +392,7 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  /* So, instead of changing textColor, we change UILegibilitySettings */
 
  /* Get the settings */
+ UIColor *origPrimaryColor = daLabel.legibilitySettings.primaryColor;
  if (textColorNew) {
    daLabel.legibilitySettings.primaryColor = colorFromHexString(textColorNew);
  }
@@ -399,8 +400,9 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  /* Declare our NSStrings for Prefs */
 
  /* Now, update the label for our settings */
- [daLabel _updateLabelForLegibilitySettings];
  [daLabel _updateLegibilityView];
+ /* Restore old legibilitySettings, for some reason status bar will use it ??? */
+ daLabel.legibilitySettings.primaryColor = origPrimaryColor;
 
  /* Purple Glow Demo */
  NSString *shadowColorString = [_preferences objectForKey:@"bananas"];
@@ -425,13 +427,15 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  NSString *textColorTwo = [_preferences objectForKey:@"textColorTwo"];
  SBUILegibilityLabel *daLabel = subviews[0];
  
+ UIColor *oldPrimaryColor = daLabel.legibilitySettings.primaryColor;
  if (textColorTwo) {
  daLabel.legibilitySettings.primaryColor = colorFromHexString(textColorTwo);
  }
 
- [daLabel _updateLabelForLegibilitySettings];
  [daLabel _updateLegibilityView];
- [daLabel viewForFirstBaselineLayout];
+ [daLabel viewForFirstBaselineLayout]; /* uhhh idk what this does... i don't remember adding it... leaving here in case it's important? */
+ /* Restore old legibilitySettings, for some reason status bar will use it ??? */
+ daLabel.legibilitySettings.primaryColor = oldPrimaryColor;
 
  daLabel.layer.shadowOffset = CGSizeMake(0,0);
  NSString *textShadow = [_preferences objectForKey:@"shadowColor2"];
