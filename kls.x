@@ -83,15 +83,44 @@ BOOL _enabledFloater;
         NSMutableArray *colors = [NSMutableArray array];
 #if USE_TRANS_COLORS
 
-/* you could use a for loop for this but imma flex */
-unsigned int i = 0;
-hacky_ugly_diy_for_loop:
-[colors addObject:(id)[[UIColor colorWithRed:91 green:206 blue:250 alpha:1] CGColor]]; /* baby blue */
-[colors addObject:(id)[[UIColor colorWithRed:245 green:169 blue:184 alpha:1] CGColor]]; /* baby pink */
-[colors addObject:(id)[[UIColor colorWithRed:255 green:255 blue:255 alpha:1] CGColor]]; /* white */
-[colors addObject:(id)[[UIColor colorWithRed:245 green:169 blue:184 alpha:1] CGColor]]; /* baby pink */
-i++;
-if (i != 2) { goto hacky_ugly_diy_for_loop; };
+// Define the colors in the desired sequence
+NSArray *colorSequence = @[
+    [UIColor colorWithRed:91.0/255.0 green:206.0/255.0 blue:250.0/255.0 alpha:1.0], /* baby blue */
+    [UIColor colorWithRed:245.0/255.0 green:169.0/255.0 blue:184.0/255.0 alpha:1.0], /* baby pink */
+    [UIColor whiteColor],
+    [UIColor colorWithRed:245.0/255.0 green:169.0/255.0 blue:184.0/255.0 alpha:1.0] /* baby pink */
+];
+
+// Calculate the number of steps between each color
+CGFloat colorSteps = 60.0 / colorSequence.count;
+
+for (NSInteger step = 0; step < 60; step++) {
+// Determine the start and end colors for the current step
+NSInteger startIndex = step / colorSteps;
+NSInteger endIndex = (startIndex + 1) % colorSequence.count;
+
+// Calculate the progress within the current step
+CGFloat progresss = (step % (NSInteger)colorSteps) / colorSteps;
+
+// Interpolate between the start and end colors using the progress
+UIColor *startColor = colorSequence[startIndex];
+UIColor *endColor = colorSequence[endIndex];
+
+CGFloat startRed, startGreen, startBlue, startAlpha;
+CGFloat endRed, endGreen, endBlue, endAlpha;
+
+[startColor getRed:&startRed green:&startGreen blue:&startBlue alpha:&startAlpha];
+[endColor getRed:&endRed green:&endGreen blue:&endBlue alpha:&endAlpha];
+
+CGFloat interpolatedRed = [self interpolateValueWithStart:startRed end:endRed progress:progresss];
+CGFloat interpolatedGreen = [self interpolateValueWithStart:startGreen end:endGreen progress:progresss];
+CGFloat interpolatedBlue = [self interpolateValueWithStart:startBlue end:endBlue progress:progresss];
+CGFloat interpolatedAlpha = [self interpolateValueWithStart:startAlpha end:endAlpha progress:progresss];
+
+UIColor *interpolatedColor = [UIColor colorWithRed:interpolatedRed green:interpolatedGreen blue:interpolatedBlue alpha:interpolatedAlpha];
+
+[colors addObject:(id)[interpolatedColor CGColor]];
+}
 
 #else
         for (NSInteger deg = 0; deg <= 360; deg += 5) {
