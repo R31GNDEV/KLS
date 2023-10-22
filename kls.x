@@ -516,6 +516,17 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   }
  }
 }
+
+-(CALayer *)layer {
+  CALayer *origLayer = %orig;
+  origLayer.shadowOpacity = 1;
+  origLayer.shadowOffset = CGSizeMake(3.0f,3.0f);
+  NSString *MRUShadowString = [_preferences objectForKey:@"MRUShadow"];
+  if (MRUShadowString) {
+    origLayer.shadowColor = colorFromHexString(MRUShadowString).CGColor;
+  }
+  return origLayer;
+}
 %end
 %hook MRUNowPlayingLabelView
 -(void)layoutSubviews {
