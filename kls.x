@@ -344,6 +344,15 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   floatingLabelAnimation.autoreverses = YES;
   floatingLabelAnimation.repeatCount = INFINITY;
   [gradientProgressView.layer addAnimation:floatingLabelAnimation forKey:@"enabledFloater"];
+
+  CABasicAnimation* gradRot = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+  [gradRot setDuration:2.5];
+  [gradRot setFromValue:@0.3];
+  [gradRot setToValue:@-0.3];
+  gradRot.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+  [gradRot setRepeatCount:INFINITY];
+  [gradRot setAutoreverses:YES];
+  [gradientProgressView.layer addAnimation:gradRot forKey:@"GradientProgressViewRotation"];
   }
  }
  /* we have added the GradientProgressView to ourselves */
@@ -354,6 +363,15 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  [gradientProgressView setAlpha:1.0];
  [gradientProgressView setUserInteractionEnabled:NO];
  [gradientProgressView startAnimating];
+
+ CABasicAnimation* rotAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+ [rotAnimation setDuration:2.5];
+ [rotAnimation setFromValue:@0.3];
+ [rotAnimation setToValue:@-0.3];
+ rotAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+ [rotAnimation setRepeatCount:INFINITY];
+ [rotAnimation setAutoreverses:YES];
+ [self.layer addAnimation:rotAnimation forKey:@"SBFLockScreenDateViewRotation"];
 }
 
 -(instancetype)initWithFrame:(CGRect)frame {
