@@ -495,6 +495,20 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   }
  }
 }
+
+-(id)titleLabel {
+ id titleLabel = %orig;
+ if (titleLabel) {
+  NSArray *subviews = [titleLabel subviews];
+  if (subviews) {
+   UILabel *daLabel = subviews[0];
+   if (daLabel) {
+    daLabel.textColor = [UIColor systemPinkColor];
+   }
+  }
+ }
+ return titleLabel;
+}
 %end
 
 /*
