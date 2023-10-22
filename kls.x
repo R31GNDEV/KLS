@@ -376,23 +376,29 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
 
 -(instancetype)initWithFrame:(CGRect)frame {
  /* run the original code */
- /* Not done yet
- NSString *mainFont = [_preferences objectForKey:@"mainFont"];
- NSString *subFont = [_preferences objectForKey:@"subFont"];
- */
  id returnedFromOriginalMethod = %orig;
  if (returnedFromOriginalMethod) {
   /* set the font */
   SBUILegibilityLabel *timeLabel = [returnedFromOriginalMethod valueForKey:@"_timeLabel"];
   if (timeLabel) {
-   timeLabel.font = [UIFont fontWithName:@"AcademyEngravedLetPlain" size:timeLabel.font.pointSize];
+   NSString *textFont = [_preferences objectForKey:@"setTimeFont"];
+   if (textFont) {
+    UIFont *customFont = [UIFont fontWithName:textFont size:timeLabel.font.pointSize];
+    if (customFont) {
+      timeLabel.font = customFont;
+    }
+   }
   }
   /* set the font for date label */
   SBFLockScreenDateSubtitleDateView *dateSubtitleView = [returnedFromOriginalMethod valueForKey:@"_dateSubtitleView"];
   if (dateSubtitleView) {
    SBUILegibilityLabel *dateLabel = dateSubtitleView.subviews[0];
    if (dateLabel) {
-    dateLabel.font = [UIFont fontWithName:@"AcademyEngravedLetPlain" size:dateLabel.font.pointSize ];
+    NSString *textFontSubtitle = [_preferences objectForKey:@"setDateFont"]
+    UIFont *customFont = [UIFont fontWithName:textFontSubtitle size:dateLabel.font.pointSize];
+    if (customFont) {
+      dateLabel.font = customFont;
+    }
    }
   }
  }
