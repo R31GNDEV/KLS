@@ -513,7 +513,8 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   }
  }
 }
-
+%end
+%hook MRUNowPlayingLabelView
 -(id)titleLabel {
  id titleLabel = %orig;
  if (titleLabel) {
@@ -528,7 +529,6 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  return titleLabel;
 }
 %end
-
 /*
 Init prefs
 */
