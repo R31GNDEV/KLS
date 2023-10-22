@@ -508,25 +508,44 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
    //this is because daView is just a pointer to a view
    //same with daMaterialView. when we make a new variable here, we aren't actually making a new view, we are setting our new pointer to point to the same view in memory as daView.
    //anyways, borderColor change time
-   daMaterialView.layer.borderColor = [UIColor systemPinkColor].CGColor;
+   NSString *MRUborderColorString = [_preferences objectForKey:@"MRUBorder"];
+    if (MRUborderColorString) {
+    daMaterialView.layer.borderColor = colorFromHexString(MRUborderColorString).CGColor;
+   }
    daMaterialView.layer.borderWidth = 3;
   }
  }
 }
 %end
 %hook MRUNowPlayingLabelView
--(id)titleLabel {
- id titleLabel = %orig;
+-(void)layoutSubviews {
+ %orig;
+ id titleLabel = [self titleLabel];
+ id subtitleLabel = [self subtitleLabel];
  if (titleLabel) {
   NSArray *subviews = [titleLabel subviews];
   if (subviews) {
    UILabel *daLabel = subviews[0];
    if (daLabel) {
-    daLabel.textColor = [UIColor systemPinkColor];
+    NSString *MRUtitleColorString = [_preferences objectForKey:@"MRUTitleColor"];
+    if (MRUtitleColorString) {
+    daLabel.textColor = colorFromHexString(MRUtitleColorString);
+    }
    }
   }
  }
- return titleLabel;
+ if (subtitleLabel) {
+    NSArray *subviews = [subtitleLabel subviews];
+    if (subviews) {
+     UILabel *daLabel = subviews[0];
+     if (daLabel) {
+      NSString *MRUsubtitleColorString = [_preferences objectForKey:@"MRUSubtitleColor"];
+      if (MRUsubtitleColorString) {
+    daLabel.textColor = colorFromHexString(MRUsubtitleColorString);
+    }
+   }
+  }
+ }
 }
 %end
 /*
