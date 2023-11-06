@@ -32,6 +32,40 @@ BOOL _enabledFloater;
 BOOL USE_TRANS_COLORS;
 BOOL HIDE_LOCK;
 
+%hook SBUIFaceIDCoachingView
+-(NSArray *)subviews {
+ id subviews = %orig;
+ NSString *labelColor2 = [_preferences objectForKey:@"labelColor2"];
+ for (UIMorphingLabel * origSubview in subviews) {
+  if ([origSubview isMemberOfClass:[UIMorphingLabel class]]) {
+   //our subview is a UILabel!
+   //now, safety check...
+   if (labelColor2) {
+    origSubview.textColor = colorFromHexString(labelColor2);
+   }
+  }
+ }
+ return subviews;
+}
+%end
+
+%hook NCNotificationStructuredListViewController
+-(NSArray *)subviews {
+ id subviews = %orig;
+ NSString *notiColor2 = [_preferences objectForKey:@"notiColor2"];
+ for (UILabel * origSubview in subviews) {
+  if ([origSubview isMemberOfClass:[UILabel class]]) {
+   //our subview is a UILabel!
+   //now, safety check...
+   if (notiColor2) {
+    origSubview.textColor = colorFromHexString(notiColor2);
+   }
+  }
+ }
+ return subviews;
+}
+%end
+
 //this works, yayayayayayyayay
 %hook SBUIProudLockIconView
 -(NSArray *)subviews {
@@ -591,242 +625,145 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
 }
 %end
 
-/* not tested, just me theorizing 
+/* not tested, just me theorizing */
 
 #define GLES_SILENCE_DEPRECATION 1
 #import <GLKit/GLKit.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+
+// thanks https://www.kodeco.com/5146-glkit-tutorial-for-ios-getting-started-with-opengl-es?page=3
+
+#define DCUBE 0
 
 typedef struct {
-
     float Position[3];
-
     float Color[4];
-
 } Vertex;
 
-const Vertex vertices[] = {
-
-    // Front
-
-    {{1, -1, 1}, {1, 0, 0, 1}},
-
-    {{1, 1, 1}, {0, 1, 0, 1}},
-
-    {{-1, 1, 1}, {0, 0, 1, 1}},
-
-    {{-1, -1, 1}, {1, 0, 0, 1}},
-
-    // Back
-
-    {{1, 1, -1}, {1, 0, 0, 1}},
-
-    {{-1, -1, -1}, {0, 1, 0, 1}},
-
-    {{1, -1, -1}, {0, 0, 1, 1}},
-
-    {{-1, 1, -1}, {1, 0, 0, 1}},
-
-    // Left
-
-    {{-1, -1, 1}, {1, 0, 0, 1}},
-
-    {{-1, 1, 1}, {0, 1, 0, 1}},
-
-    {{-1, 1, -1}, {0, 0, 1, 1}},
-
-    {{-1, -1, -1}, {1, 0, 0, 1}},
-
-    // Right
-
-    {{1, -1, -1}, {1, 0, 0, 1}},
-
-    {{1, 1, -1}, {0, 1, 0, 1}},
-
-    {{1, 1, 1}, {0, 0, 1, 1}},
-
-    {{1, -1, 1}, {1, 0, 0, 1}},
-
-    // Top
-
-    {{1, 1, 1}, {1, 0, 0, 1}},
-
-    {{1, 1, -1}, {0, 1, 0, 1}},
-
-    {{-1, 1, -1}, {0, 0, 1, 1}},
-
-    {{-1, 1, 1}, {1, 0, 0, 1}},
-
-    // Bottom
-
-    {{1, -1, -1}, {1, 0, 0, 1}},
-
-    {{1, -1, 1}, {0, 1, 0, 1}},
-
-    {{-1, -1, 1}, {0, 0, 1, 1}},
-
-    {{-1, -1, -1}, {1, 0, 0, 1}}
-
+#if DCUBE
+const Vertex Vertices[] = {
+    {{1, -1, 0}, {1, 0, 0, 1}},
+    {{1, 1, 0}, {0, 1, 0, 1}},
+    {{-1, 1, 0}, {0, 0, 1, 1}},
+    {{-1, -1, 0}, {0, 0, 0, 1}}
 };
 
-const GLubyte indices[] = {
-
+const GLubyte Indices[] = {
     0, 1, 2,
-
-    2, 3, 0,
-
-    // Back
-
-    4, 5, 6,
-
-    4, 5, 7,
-
-    // Left
-
-    8, 9, 10,
-
-    10, 11, 8,
-
-    // Right
-
-    12, 13, 14,
-
-    14, 15, 12,
-
-    // Top
-
-    16, 17, 18,
-
-    18, 19, 16,
-
-    // Bottom
-
-    20, 21, 22,
-
-    22, 23, 20
-
+    2, 3, 0
+};
+#else
+const Vertex Vertices[] = {
+    {{1, -1, -1}, {1, 0, 0, 1}},  // Front bottom right
+    {{1, 1, -1}, {0, 1, 0, 1}},   // Front top right
+    {{-1, 1, -1}, {0, 0, 1, 1}},  // Front top left
+    {{-1, -1, -1}, {0, 0, 0, 1}}, // Front bottom left
+    {{1, -1, 1}, {1, 0, 0, 1}},   // Back bottom right
+    {{1, 1, 1}, {0, 1, 0, 1}},    // Back top right
+    {{-1, 1, 1}, {0, 0, 1, 1}},   // Back top left
+    {{-1, -1, 1}, {0, 0, 0, 1}}   // Back bottom left
 };
 
-GLuint vertex;
+const GLubyte Indices[] = {
+    0, 1, 2, // Front face
+    2, 3, 0,
+    1, 5, 6, // Right face
+    6, 2, 1,
+    7, 6, 5, // Back face
+    5, 4, 7,
+    4, 0, 3, // Left face
+    3, 7, 4,
+    4, 5, 1, // Bottom face
+    1, 0, 4,
+    3, 2, 6, // Top face
+    6, 7, 3
+};
+#endif
 
-GLuint index2;
+GLuint _vertexBuffer;
+GLuint _indexBuffer; 
+float _rotation;
 
-int degree;
+@interface MyGLKView : GLKView
+@property (strong, nonatomic) GLKBaseEffect *effect;
+@property(nonatomic) NSTimeInterval timeSinceLastUpdate;
+@end
 
-int x;
+@implementation MyGLKView
+-(void)drawRect:(CGRect)rect {
+ glClearColor(0, 0, 0, 1);
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-GLKBaseEffect *baseEffect;
-GLKView *gv;
 
-%hook SBUIProudLockContainerViewController
--(void)viewDidLoad {
+
+ float aspect = fabsf(self.bounds.size.width / self.bounds.size.height);
+#if DCUBE
+ GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);    
+#else
+ GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1, 10.0f);   
+#endif
+ self.effect.transform.projectionMatrix = projectionMatrix;
+
+ GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);  
+
+ /* get timeSinceLastUpdate */
+ NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
+ self.timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
+ _rotation += 90 * self.timeSinceLastUpdate;
+#if DCUBE
+ modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 0, 1);
+#else
+ modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 1, 1, 1);
+#endif
+ self.effect.transform.modelviewMatrix = modelViewMatrix;
+
+ [self.effect prepareToDraw]; 
+
+ glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+ glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+
+ glEnableVertexAttribArray(GLKVertexAttribPosition);        
+ glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Position));
+ glEnableVertexAttribArray(GLKVertexAttribColor);
+ glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
+
+ glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+}
+-(void)setupCube {
+ self.timeSinceLastUpdate = [[NSDate date] timeIntervalSince1970];
+
+ [EAGLContext setCurrentContext:self.context];
+ self.effect = [[GLKBaseEffect alloc] init];
+
+ glGenBuffers(1, &_vertexBuffer);
+ glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+ glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    
+ glGenBuffers(1, &_indexBuffer);
+ glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+ glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+
+
+  CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(display)];
+[displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+}
+@end
+
+@interface SBIconView : UIView
+@end
+
+// SBUIProudLockIconView
+%hook SBUIProudLockIconView
+-(void)didMoveToWindow {
  %orig;
 
- gv = [[GLKView alloc]init];//(GLKView*)self.view;
- gv.frame = self.view.frame;
- gv.bounds = self.view.bounds;
- gv.drawableDepthFormat = GLKViewDrawableDepthFormat16;
- gv.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
- [EAGLContext setCurrentContext:gv.context];
-
- baseEffect = [[GLKBaseEffect alloc] init];
- baseEffect.colorMaterialEnabled = GL_TRUE;
-
- glClearColor(.2f, .2f, .2f, 1.0f);
-
- glGenBuffers(1, &vertex);
- glBindBuffer(GL_ARRAY_BUFFER, vertex);
- glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
- glGenBuffers(1, &index2);
- glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index2);
- glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
- glBindBuffer(GL_ARRAY_BUFFER, vertex);
-
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),  NULL + 0);
-
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-
-    glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL + offsetof(Vertex, Position));
-
- glEnable(GL_DEPTH_TEST);
-
-    glEnable(GL_BLEND);
-}
-
--(void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-
-{    
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    
-
-    const GLfloat  aspectRatio = (GLfloat)gv.drawableWidth / (GLfloat)gv.drawableHeight;
-
-    baseEffect.transform.projectionMatrix = GLKMatrix4MakeScale(0.05f, 0.05 * aspectRatio, 0.05f);
-
-        
-
-    GLKMatrix4 arrowMatrix[] = {
-
-        GLKMatrix4MakeTranslation(9, 0, 0),
-
-        GLKMatrix4MakeTranslation(6, 0, 0),
-
-        GLKMatrix4MakeTranslation(3, 0, 0),
-
-        GLKMatrix4MakeTranslation(0, 0, 0),
-
-        GLKMatrix4MakeTranslation(-3, 0, 0),
-
-        GLKMatrix4MakeTranslation(-6, 0, 0),
-
-        GLKMatrix4MakeTranslation(6, 3, 0),
-
-        GLKMatrix4MakeTranslation(3, 6, 0),
-
-        GLKMatrix4MakeTranslation(6, -3, 0),
-
-        GLKMatrix4MakeTranslation(3, -6, 0),
-
-    };
-
-    
-
-    for (int i=0; i<sizeof(arrowMatrix)/sizeof(arrowMatrix[0]); i++) {
-
-        GLKMatrix4 modelViewMatrix = arrowMatrix[i];
-
-        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, x*0.1, 0, 0);
-
-        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(degree), 1, 0, 1);
-
-        baseEffect.transform.modelviewMatrix = modelViewMatrix;
-
-        [baseEffect prepareToDraw];
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
-
-    }
-
-    x += 4;
-
-    if (x > 250) {
-
-        x = -100;
-
-    }
-
-    degree += 5;
-
-    
-
+ MyGLKView *glkView = [[MyGLKView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+ glkView.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+ [glkView setupCube];
+ [self addSubview:glkView];
 }
 %end
-*/
 
 /*
 Init prefs

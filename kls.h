@@ -545,3 +545,122 @@ Header(s) *meow*
 -(void)setLabel:(SBUILegibilityLabel *)textLabel;
 -(void)setText:(NSString *)arg1 ;
 @end
+
+@class UIMorphingLabelGlyphSet, NSMutableArray, UIView, _UIViewAnimationAttributes, NSString, UIFont, UIColor;
+
+@interface UIMorphingLabel : UIView {
+	UIView* _colorView;
+	unsigned long long _alignmentSrc[100];
+	unsigned long long _alignmentDst[100];
+	BOOL _alignmentIsEqual[100];
+	unsigned long long _alignmentSize;
+	double _alignmentDelays[100];
+	double _lastUpdateTime;
+	double _slowdown;
+	double _rippleFactor;
+	double _scaleFactor;
+	BOOL _isDoingFastAnimation;
+	BOOL _textDidChange;
+	BOOL _textColorDidChange;
+	BOOL _suppressLayoutSubviews;
+	BOOL _enableAnimation;
+	NSString* _text;
+	UIFont* _font;
+	UIColor* _textColor;
+	long long _textAlignment;
+	double _initialScale;
+	double _glyphScaleAnimationSpeed;
+	double _rippleDuration;
+	CGRect _visibleRect;
+}
+@property (nonatomic,copy) NSString * text;                                //@synthesize text=_text - In the implementation block
+@property (nonatomic,copy) UIFont * font;                                  //@synthesize font=_font - In the implementation block
+@property (nonatomic,copy) UIColor * textColor;                            //@synthesize textColor=_textColor - In the implementation block
+@property (assign,nonatomic) long long textAlignment;                      //@synthesize textAlignment=_textAlignment - In the implementation block
+@property (assign,nonatomic) BOOL suppressLayoutSubviews;                  //@synthesize suppressLayoutSubviews=_suppressLayoutSubviews - In the implementation block
+@property (assign,nonatomic) BOOL enableAnimation;                         //@synthesize enableAnimation=_enableAnimation - In the implementation block
+@property (assign,nonatomic) double initialScale;                          //@synthesize initialScale=_initialScale - In the implementation block
+@property (assign,nonatomic) double glyphScaleAnimationSpeed;              //@synthesize glyphScaleAnimationSpeed=_glyphScaleAnimationSpeed - In the implementation block
+@property (assign,nonatomic) double rippleDuration;                        //@synthesize rippleDuration=_rippleDuration - In the implementation block
++(id)preferredFontWithSize:(double)arg1 ;
+-(void)contentSizeDidChange:(id)arg1 ;
+-(void)setFont:(UIFont *)arg1 ;
+-(id)attributedString;
+-(void)setInitialScale:(double)arg1 ;
+-(void)layoutSubviews;
+-(double)_rippleDurationForEndInsertion:(BOOL)arg1 ;
+-(double)rippleDuration;
+-(void)animateShowGlyph:(id)arg1 alpha:(double)arg2 alphaDuration:(double)arg3 delay:(double)arg4 ;
+-(void)hideGlyph:(id)arg1 ;
+-(void)animateChangeInWidthOutsideAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)setTextAlignment:(long long)arg1 ;
+-(double)totalLeftOffsetForAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)initInsertionAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(CGRect)visibleRect;
+-(double)glyphScaleAnimationSpeed;
+-(double)flushAmount;
+-(void)setRippleDuration:(double)arg1 ;
+-(void)setVisibleRect:(CGRect)arg1 ;
+-(void)setText:(NSString *)arg1 ;
+-(double)currentMediaTime;
+-(void)setSuppressLayoutSubviews:(BOOL)arg1 ;
+-(void)animateGlyph:(id)arg1 toScale:(double)arg2 delay:(double)arg3 ;
+-(double)requiredWidthForText:(id)arg1 ;
+-(unsigned long long)calculateHardAlignmentAtIndex:(unsigned long long)arg1 fromGlyphsInRange:(NSRange)arg2 toGlyphsInRange:(NSRange)arg3 ;
+-(void)animateHideGlyph:(id)arg1 alphaDuration:(double)arg2 delay:(double)arg3 ;
+-(void)animateGlyphsInRange:(NSRange)arg1 ofGlyphSet:(id)arg2 byOffset:(double)arg3 delay:(double)arg4 ;
+-(void)animateInsertionAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)calculateGlyphAlignment;
+-(BOOL)_isRTL;
+-(id)initWithCoder:(id)arg1 ;
+-(void)initDeletionAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(NSString *)text;
+-(id)uniqueString;
+-(id)glyphViewWithImage:(id)arg1 isColorGlyph:(BOOL)arg2 ;
+-(BOOL)suppressLayoutSubviews;
+-(void)initAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)setTextColor:(UIColor *)arg1 ;
+-(UIFont *)font;
+-(void)copyStateFromGlyph:(id)arg1 toGlyph:(id)arg2 ;
+-(void)animateMovementAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)dealloc;
+-(void)baseInit;
+-(void)setGlyphScaleAnimationSpeed:(double)arg1 ;
+-(void)setEnableAnimation:(BOOL)arg1 ;
+-(void)animateAlignmentHunkAtIndex:(unsigned long long)arg1 ;
+-(void)animateGlyphs;
+-(BOOL)enableAnimation;
+-(UIColor *)textColor;
+@end
+
+@class NSString, _UILegibilitySettings, UIMorphingLabel;
+
+@interface SBUIFaceIDCoachingView : UIView {
+	unsigned long long _coachingCondition;
+	NSString* _currentSizeCategory;
+	_UILegibilitySettings* _legibilitySettings;
+	NSString* _labelText;
+	UIMorphingLabel* _label;
+}
+@property (nonatomic,retain) NSString * labelText;                                    //@synthesize labelText=_labelText - In the implementation block
+@property (assign,nonatomic) unsigned long long coachingCondition;                    //@synthesize coachingCondition=_coachingCondition - In the implementation block
+@property (nonatomic,retain) NSString * currentSizeCategory;                          //@synthesize currentSizeCategory=_currentSizeCategory - In the implementation block
+@property (nonatomic,retain) _UILegibilitySettings * legibilitySettings;              //@synthesize legibilitySettings=_legibilitySettings - In the implementation block
+@property (nonatomic,readonly) double stringWidth; 
+-(void)layoutSubviews;
+-(id)_label;
+-(void)setLabel:(UIMorphingLabel *)arg1 ;
+-(NSString *)labelText;
+-(void)setLegibilitySettings:(_UILegibilitySettings *)arg1 ;
+-(void)setLabelText:(NSString *)arg1 ;
+-(void)_contentSizeCategoryChanged;
+-(id)init;
+-(double)stringWidth;
+-(void)setCoachingCondition:(unsigned long long)arg1 animated:(BOOL)arg2 delay:(double)arg3 ;
+-(NSString *)currentSizeCategory;
+-(void)setCoachingCondition:(unsigned long long)arg1 ;
+-(void)_resizeLabelToFirstSizeCategoryThatFits;
+-(void)_updateLabelTextForCurrentCoachingConditionAnimated:(BOOL)arg1 ;
+-(unsigned long long)coachingCondition;
+-(void)setCurrentSizeCategory:(NSString *)arg1 ;
+@end
