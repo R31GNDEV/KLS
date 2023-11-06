@@ -1,4 +1,5 @@
 #include <UIKit/UIKit.h>
+#include <GLKit/GLKit.h>
 
 /*
 
@@ -448,6 +449,9 @@ Header(s) *meow*
 @end
 
 @class UILabel, _UILegibilityView, NSArray, UILayoutGuide, NSString, UIFont, NSAttributedString, UIColor, _UILegibilitySettings;
+@interface SBUIProudLockContainerViewController : UIViewController
+@end
+
 
 @interface SBUILegibilityLabel : UIView {
 

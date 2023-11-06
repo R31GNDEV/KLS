@@ -31,6 +31,19 @@ BOOL _enabled;
 BOOL _enabledFloater;
 BOOL USE_TRANS_COLORS;
 
+//this works, yayayayayayyayay
+%hook SBUIProudLockIconView
+-(NSArray *)subviews {
+  NSArray *subviews = %orig;
+  if (subviews) {
+    NSString *lockColorString = [_preferences objectForKey:@"lockColorKey"];
+    if (lockColorString) {
+      self.contentColor = colorFromHexString(lockColorString);
+    }
+  }
+  return subviews;
+}
+%end
 
 %hook HBForceCepheiPrefs
 + (BOOL)forceCepheiPrefsWhichIReallyNeedToAccessAndIKnowWhatImDoingISwear {
@@ -394,7 +407,7 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   if (dateSubtitleView) {
    SBUILegibilityLabel *dateLabel = dateSubtitleView.subviews[0];
    if (dateLabel) {
-    NSString *textFontSubtitle = [_preferences objectForKey:@"setDateFont"]
+    NSString *textFontSubtitle = [_preferences objectForKey:@"setDateFont"];
     UIFont *customFont = [UIFont fontWithName:textFontSubtitle size:dateLabel.font.pointSize];
     if (customFont) {
       dateLabel.font = customFont;
@@ -565,6 +578,244 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
  }
 }
 %end
+
+/* not tested, just me theorizing 
+
+#define GLES_SILENCE_DEPRECATION 1
+#import <GLKit/GLKit.h>
+
+typedef struct {
+
+    float Position[3];
+
+    float Color[4];
+
+} Vertex;
+
+const Vertex vertices[] = {
+
+    // Front
+
+    {{1, -1, 1}, {1, 0, 0, 1}},
+
+    {{1, 1, 1}, {0, 1, 0, 1}},
+
+    {{-1, 1, 1}, {0, 0, 1, 1}},
+
+    {{-1, -1, 1}, {1, 0, 0, 1}},
+
+    // Back
+
+    {{1, 1, -1}, {1, 0, 0, 1}},
+
+    {{-1, -1, -1}, {0, 1, 0, 1}},
+
+    {{1, -1, -1}, {0, 0, 1, 1}},
+
+    {{-1, 1, -1}, {1, 0, 0, 1}},
+
+    // Left
+
+    {{-1, -1, 1}, {1, 0, 0, 1}},
+
+    {{-1, 1, 1}, {0, 1, 0, 1}},
+
+    {{-1, 1, -1}, {0, 0, 1, 1}},
+
+    {{-1, -1, -1}, {1, 0, 0, 1}},
+
+    // Right
+
+    {{1, -1, -1}, {1, 0, 0, 1}},
+
+    {{1, 1, -1}, {0, 1, 0, 1}},
+
+    {{1, 1, 1}, {0, 0, 1, 1}},
+
+    {{1, -1, 1}, {1, 0, 0, 1}},
+
+    // Top
+
+    {{1, 1, 1}, {1, 0, 0, 1}},
+
+    {{1, 1, -1}, {0, 1, 0, 1}},
+
+    {{-1, 1, -1}, {0, 0, 1, 1}},
+
+    {{-1, 1, 1}, {1, 0, 0, 1}},
+
+    // Bottom
+
+    {{1, -1, -1}, {1, 0, 0, 1}},
+
+    {{1, -1, 1}, {0, 1, 0, 1}},
+
+    {{-1, -1, 1}, {0, 0, 1, 1}},
+
+    {{-1, -1, -1}, {1, 0, 0, 1}}
+
+};
+
+const GLubyte indices[] = {
+
+    0, 1, 2,
+
+    2, 3, 0,
+
+    // Back
+
+    4, 5, 6,
+
+    4, 5, 7,
+
+    // Left
+
+    8, 9, 10,
+
+    10, 11, 8,
+
+    // Right
+
+    12, 13, 14,
+
+    14, 15, 12,
+
+    // Top
+
+    16, 17, 18,
+
+    18, 19, 16,
+
+    // Bottom
+
+    20, 21, 22,
+
+    22, 23, 20
+
+};
+
+GLuint vertex;
+
+GLuint index2;
+
+int degree;
+
+int x;
+
+GLKBaseEffect *baseEffect;
+GLKView *gv;
+
+%hook SBUIProudLockContainerViewController
+-(void)viewDidLoad {
+ %orig;
+
+ gv = [[GLKView alloc]init];//(GLKView*)self.view;
+ gv.frame = self.view.frame;
+ gv.bounds = self.view.bounds;
+ gv.drawableDepthFormat = GLKViewDrawableDepthFormat16;
+ gv.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+ [EAGLContext setCurrentContext:gv.context];
+
+ baseEffect = [[GLKBaseEffect alloc] init];
+ baseEffect.colorMaterialEnabled = GL_TRUE;
+
+ glClearColor(.2f, .2f, .2f, 1.0f);
+
+ glGenBuffers(1, &vertex);
+ glBindBuffer(GL_ARRAY_BUFFER, vertex);
+ glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+ glGenBuffers(1, &index2);
+ glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index2);
+ glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+ glBindBuffer(GL_ARRAY_BUFFER, vertex);
+
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),  NULL + 0);
+
+    glEnableVertexAttribArray(GLKVertexAttribColor);
+
+    glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL + offsetof(Vertex, Position));
+
+ glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_BLEND);
+}
+
+-(void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+
+{    
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    
+
+    const GLfloat  aspectRatio = (GLfloat)gv.drawableWidth / (GLfloat)gv.drawableHeight;
+
+    baseEffect.transform.projectionMatrix = GLKMatrix4MakeScale(0.05f, 0.05 * aspectRatio, 0.05f);
+
+        
+
+    GLKMatrix4 arrowMatrix[] = {
+
+        GLKMatrix4MakeTranslation(9, 0, 0),
+
+        GLKMatrix4MakeTranslation(6, 0, 0),
+
+        GLKMatrix4MakeTranslation(3, 0, 0),
+
+        GLKMatrix4MakeTranslation(0, 0, 0),
+
+        GLKMatrix4MakeTranslation(-3, 0, 0),
+
+        GLKMatrix4MakeTranslation(-6, 0, 0),
+
+        GLKMatrix4MakeTranslation(6, 3, 0),
+
+        GLKMatrix4MakeTranslation(3, 6, 0),
+
+        GLKMatrix4MakeTranslation(6, -3, 0),
+
+        GLKMatrix4MakeTranslation(3, -6, 0),
+
+    };
+
+    
+
+    for (int i=0; i<sizeof(arrowMatrix)/sizeof(arrowMatrix[0]); i++) {
+
+        GLKMatrix4 modelViewMatrix = arrowMatrix[i];
+
+        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, x*0.1, 0, 0);
+
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(degree), 1, 0, 1);
+
+        baseEffect.transform.modelviewMatrix = modelViewMatrix;
+
+        [baseEffect prepareToDraw];
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+
+    }
+
+    x += 4;
+
+    if (x > 250) {
+
+        x = -100;
+
+    }
+
+    degree += 5;
+
+    
+
+}
+%end
+*/
+
 /*
 Init prefs
 */

@@ -9,7 +9,7 @@ THEOS_PACKAGE_SCHEME = rootless
 KLS_EXTRA_FRAMEWORKS += Alderis
 ARCHS = arm64 arm64e
 FINALPACKAGE = 1
-
+GLES_SILENCE_DEPRECATION = 1
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = KLS
