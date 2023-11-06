@@ -30,6 +30,7 @@ NSUserDefaults *_preferences;
 BOOL _enabled;
 BOOL _enabledFloater;
 BOOL USE_TRANS_COLORS;
+BOOL HIDE_LOCK;
 
 //this works, yayayayayayyayay
 %hook SBUIProudLockIconView
@@ -42,6 +43,17 @@ BOOL USE_TRANS_COLORS;
     }
   }
   return subviews;
+}
+
+-(CALayer *)layer {
+  CALayer *origLayer = %orig;
+  NSString *lockShadowColorString = [_preferences objectForKey:@"lockShadowColor"];
+  if (lockShadowColorString) {
+    origLayer.shadowColor = colorFromHexString(lockShadowColorString).CGColor;
+  }
+  origLayer.shadowOpacity = 1;
+  origLayer.shadowOffset = CGSizeMake(3.0f,3.0f);
+  return origLayer;
 }
 %end
 

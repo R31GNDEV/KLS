@@ -370,6 +370,12 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Visible LS Lock Options</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>cellClass</key>
 			<string>HBColorPickerTableCell</string>
@@ -381,6 +387,24 @@
 			<string>lockColorKey</string>
 			<key>label</key>
 			<string>Lock Color</string>
+			<key>showAlphaSlider</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>gay.kota.kls/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBColorPickerTableCell</string>
+			<key>defaults</key>
+			<string>gay.kota.kls</string>
+			<key>default</key>
+			<string>#33b5e5</string>
+			<key>key</key>
+			<string>lockShadowColor</string>
+			<key>label</key>
+			<string>Lock Shadow Color</string>
 			<key>showAlphaSlider</key>
 			<true/>
 			<key>PostNotification</key>
