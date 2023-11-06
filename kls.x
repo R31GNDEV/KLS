@@ -761,8 +761,7 @@ float _rotation;
 %hook SBUIProudLockIconView
 -(void)didMoveToWindow {
  %orig;
-
- MyGLKView *glkView = [[MyGLKView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+ MyGLKView *glkView = [[MyGLKView alloc]initWithFrame:CGRectMake(self.frame.origin.x + 40, self.frame.origin.y, self.frame.size.width, self.frame.size.height)];
  [glkView setupCube];
  glkView.opaque = NO; //the new line
  [self addSubview:glkView];
