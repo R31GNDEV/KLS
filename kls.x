@@ -709,8 +709,9 @@ float _rotation;
 
  /* get timeSinceLastUpdate */
  NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
- self.timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
- _rotation += 90 * self.timeSinceLastUpdate;
+ NSTimeInterval timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
+ self.timeSinceLastUpdate = currentTimeInterval;
+ _rotation += 90 * timeSinceLastUpdate;
 #if DCUBE
  modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 0, 1);
 #else
