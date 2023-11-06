@@ -712,7 +712,6 @@ float _rotation;
  NSTimeInterval timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
  self.timeSinceLastUpdate = currentTimeInterval;
  _rotation += 90 * timeSinceLastUpdate;
-
 #if DCUBE
  modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 0, 1);
 #else
@@ -732,10 +731,13 @@ float _rotation;
 
  glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
 }
+
 -(void)setupCube {
  self.timeSinceLastUpdate = [[NSDate date] timeIntervalSince1970];
 
- [EAGLContext setCurrentContext:self.context];
+ EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+ self.context = context;
+ [EAGLContext setCurrentContext:context];
  self.effect = [[GLKBaseEffect alloc] init];
 
  glGenBuffers(1, &_vertexBuffer);
@@ -761,9 +763,6 @@ float _rotation;
  %orig;
 
  MyGLKView *glkView = [[MyGLKView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
- glkView.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
- glkView.frame = CGRectMake(self.frame.origin.x + 40, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
- 
  [glkView setupCube];
  glkView.opaque = NO; //the new line
  [self addSubview:glkView];
