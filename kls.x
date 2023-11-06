@@ -692,7 +692,7 @@ float _rotation;
 
 @implementation MyGLKView
 -(void)drawRect:(CGRect)rect {
- glClearColor(0, 0, 0, 1);
+ glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -709,8 +709,10 @@ float _rotation;
 
  /* get timeSinceLastUpdate */
  NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
- self.timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
- _rotation += 90 * self.timeSinceLastUpdate;
+ NSTimeInterval timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
+ self.timeSinceLastUpdate = currentTimeInterval;
+ _rotation += 90 * timeSinceLastUpdate;
+
 #if DCUBE
  modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 0, 1);
 #else
@@ -760,7 +762,10 @@ float _rotation;
 
  MyGLKView *glkView = [[MyGLKView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
  glkView.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+ glkView.frame = CGRectMake(self.frame.origin.x + 40, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+ 
  [glkView setupCube];
+ glkView.opaque = NO; //the new line
  [self addSubview:glkView];
 }
 %end
