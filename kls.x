@@ -763,7 +763,7 @@ Init prefs
 %ctor {
 	_preferences = [[NSUserDefaults alloc] initWithSuiteName:@"gay.kota.kls"];
 	[_preferences registerDefaults:@{
-	@"enabled" : @YES,
+	@"enabled" : @NO,
     @"customTextUnlock": @"",
     @"cornerRadius": @0,
 	}];
