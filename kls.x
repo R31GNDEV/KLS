@@ -581,17 +581,6 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
   }
  }
 }
-
--(CALayer *)layer {
-  CALayer *origLayer = %orig;
-  origLayer.shadowOpacity = 1;
-  origLayer.shadowOffset = CGSizeMake(3.0f,3.0f);
-  NSString *MRUShadowString = [_preferences objectForKey:@"MRUShadow"];
-  if (MRUShadowString) {
-    origLayer.shadowColor = colorFromHexString(MRUShadowString).CGColor;
-  }
-  return origLayer;
-}
 %end
 %hook MRUNowPlayingLabelView
 -(void)layoutSubviews {
@@ -625,7 +614,7 @@ if (![_preferences boolForKey:@"USE_TRANS_COLORS"]) {
 }
 %end
 
-/* not tested, just me theorizing */
+/* Tested & Unfinished
 
 #define GLES_SILENCE_DEPRECATION 1
 #import <GLKit/GLKit.h>
@@ -707,7 +696,6 @@ float _rotation;
 
  GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);  
 
- /* get timeSinceLastUpdate */
  NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
  NSTimeInterval timeSinceLastUpdate = currentTimeInterval - self.timeSinceLastUpdate;
  self.timeSinceLastUpdate = currentTimeInterval;
@@ -767,7 +755,7 @@ float _rotation;
  [self addSubview:glkView];
 }
 %end
-
+*/
 /*
 Init prefs
 */
