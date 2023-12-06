@@ -683,8 +683,8 @@ float _rotation;
 -(void)drawRect:(CGRect)rect {
  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
+ glEnable(GL_DEPTH_TEST);
+ glEnable(GL_CULL_FACE);
 
  float aspect = fabsf(self.bounds.size.width / self.bounds.size.height);
 #if DCUBE
@@ -736,6 +736,7 @@ float _rotation;
  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 
+ self.drawableDepthFormat = GLKViewDrawableDepthFormat16;
 
   CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(display)];
 [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
